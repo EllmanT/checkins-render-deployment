@@ -10,16 +10,16 @@ const { default: mongoose } = require("mongoose");
 const { google } = require("googleapis");
 const db = mongoose.connection; // Obtain the db object from Mongoose
 const Visit = require("../model/visit");
+const { credentialsObject } = require("./credentialsObject");
+require("dotenv").config();
 
-//const credentials = require("../credentials.json");
-
-const spreadsheetId = "16u0V_zisUTJQKd8oY-3-KE6d2vh64YjWFu2V4vmczRg";
+const spreadsheetId = process.env.SPREADSHEET_ID;
 
 //counting the number of downloads
 
 async function accessGoogleSheet() {
   const auth = new google.auth.GoogleAuth({
-    keyFile: "backend/controller/credentials.json", // Path to your service account key file.
+    keyFile: credentialsObject, // Path to your service account key file.
     scopes: ["https://www.googleapis.com/auth/spreadsheets"], // Scope for Google Sheets API.
   });
 

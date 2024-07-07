@@ -14,16 +14,17 @@ const { default: mongoose } = require("mongoose");
 const { google, cloudresourcemanager_v1 } = require("googleapis");
 const contractor = require("../model/contractor");
 const sendMail = require("../utils/sendMail");
+const { credentialsObject } = require("./credentialsObject");
 require("dotenv").config();
 
 
-const spreadsheetId = "1LOMYFgnjSyZ4g_yABahnh6kntZltgqw5Vs6MT-GEDFA";
+const spreadsheetId = process.env.spreadsheetId;
 
 //counting the number of downloads
 
 async function accessGoogleSheet() {
   const auth = new google.auth.GoogleAuth({
-    keyFile: "backend/controller/credentials.json", // Path to your service account key file.
+    keyFile: credentialsObject, // Path to your service account key file.
     scopes: ["https://www.googleapis.com/auth/spreadsheets"], // Scope for Google Sheets API.
   });
 
