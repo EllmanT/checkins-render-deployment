@@ -4,7 +4,10 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const ErrorHandler = require("./middleware/error");
+const path = require("path")
 
+
+const __dirname =path.resolve()
 // Handle events and emit data as needed
 
 //app. uses
@@ -87,4 +90,8 @@ app.use("/api/v2/visit", visit);
 
 app.use(ErrorHandler);
 
+app.use(express.static(path.join(__dirname,"/frontend/dist")))
+app.get("*",(req,res)=>{
+  res.sendFile(path.join(__dirname,"frontend", "dist", "index.html"))
+})
 module.exports = app;
