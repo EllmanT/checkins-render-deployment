@@ -4,10 +4,10 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const ErrorHandler = require("./middleware/error");
-const path = require("path")
+const path = require("path");
 
+// Remove the explicit declaration of __dirname
 
-const __dirname =path.resolve()
 // Handle events and emit data as needed
 
 //app. uses
@@ -16,8 +16,8 @@ app.use(cookieParser());
 app.use("/", express.static("uploads"));
 app.use(
   cors({ 
-    //origin: "http://localhost:3000", url testing
-    origin:"checkins-vercel-deployment-frontend.vercel.app", //url for production
+    origin: "http://localhost:3000", //url testing
+   // origin: "checkins-vercel-deployment-frontend.vercel.app", //url for production
     credentials: true,
   })
 );
@@ -30,10 +30,12 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 const http = require("http");
 const socketIO = require("socket.io");
 const socketServer = http.createServer(app);
+
+// Assign the value of __dirname using path.resolve()
+
 const io = socketIO(socketServer, {
   cors: {
-   // origin: "http://localhost:3000", // Replace with the origin of your frontend application
-    origin: "checkins-vercel-deployment-frontend.vercel.app", // URL for the frontend of the application   
+    origin: "http://localhost:3000", // Replace with the origin of your frontend application
     methods: ["GET", "POST"], // Specify the allowed HTTP methods
     allowedHeaders: ["my-custom-header"], // Specify any custom headers you want to allow
     credentials: true, // Set to true if you want to allow sending cookies with the request
@@ -90,8 +92,9 @@ app.use("/api/v2/visit", visit);
 
 app.use(ErrorHandler);
 
-app.use(express.static(path.join(__dirname,"/frontend/dist")))
+app.use(express.static(path.resolve( "./frontend/build")));
 app.get("*",(req,res)=>{
-  res.sendFile(path.join(__dirname,"frontend", "dist", "index.html"))
-})
+  res.sendFile(path.resolve("./","frontend", "build", "index.html"));
+});
+
 module.exports = app;

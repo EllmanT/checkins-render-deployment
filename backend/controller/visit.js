@@ -16,7 +16,6 @@ const contractor = require("../model/contractor");
 const sendMail = require("../utils/sendMail");
 require("dotenv").config();
 
-//const credentials = require("../credentials.json");
 
 const spreadsheetId = "1LOMYFgnjSyZ4g_yABahnh6kntZltgqw5Vs6MT-GEDFA";
 
@@ -24,7 +23,7 @@ const spreadsheetId = "1LOMYFgnjSyZ4g_yABahnh6kntZltgqw5Vs6MT-GEDFA";
 
 async function accessGoogleSheet() {
   const auth = new google.auth.GoogleAuth({
-    keyFile: "controller/credentials.json", // Path to your service account key file.
+    keyFile: "backend/controller/credentials.json", // Path to your service account key file.
     scopes: ["https://www.googleapis.com/auth/spreadsheets"], // Scope for Google Sheets API.
   });
 
