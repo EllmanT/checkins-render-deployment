@@ -1,2 +1,2 @@
-export const endpoint = "http://localhost:3005";
+export const endpoint = "https://checkins-render-prod-deployment.onrender.com";
 
