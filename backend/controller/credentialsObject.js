@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-export const credentialsObject = {
+ const credentialsObject = {
   type: "service_account",
   project_id: process.env.PROJECT_ID,
   private_key_id: process.env.PRIVATE_KEY_ID,
@@ -13,3 +13,4 @@ export const credentialsObject = {
   client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
   universe_domain: "googleapis.com",
 };
+module.exports = credentialsObject;

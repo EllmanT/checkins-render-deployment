@@ -18,13 +18,14 @@ const { credentialsObject } = require("./credentialsObject");
 require("dotenv").config();
 
 
-const spreadsheetId = process.env.spreadsheetId;
+const spreadsheetId = process.env.SPREADSHEET_ID;
 
 //counting the number of downloads
-
+console.log("spreadsheet id is", spreadsheetId)
+console.log("credentials are :",credentialsObject)
 async function accessGoogleSheet() {
   const auth = new google.auth.GoogleAuth({
-    keyFile: credentialsObject, // Path to your service account key file.
+    keyFile: "backend/controller/credentialsObject.js", // Path to your service account key file.
     scopes: ["https://www.googleapis.com/auth/spreadsheets"], // Scope for Google Sheets API.
   });
 
