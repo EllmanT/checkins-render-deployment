@@ -75,8 +75,8 @@ const AddVisitPopup = ({
   const { success, error } = useSelector((state) => state.visits);
 
   //dealing with emitting real time changes START
-  const socket = io(endpoint); // Replace with your Socket.IO server URL
-  const socketId = socketIO(endpoint, { transports: ["websocket"] });
+  const socket = io(); // Replace with your Socket.IO server URL
+  //const socketId = socketIO(endpoint, { transports: ["websocket"] });
 
   socket.on("connect", () => {
     console.log("connected on", socket.id);
@@ -356,8 +356,8 @@ const AddVisitPopup = ({
                 )
               ).then(() => {
                 toast.success("Visit updated successfully");
-                socketId.emit("update-visit");
-                socketId.on("update-complete", () => {
+                socket.emit("update-visit");
+                socket.on("update-complete", () => {
                   dispatch(
                     getAllVisitsPage(
                       page,
@@ -397,8 +397,8 @@ const AddVisitPopup = ({
             )
           ).then(() => {
             toast.success("Visit updated successfully");
-            socketId.emit("update-visit");
-            socketId.on("update-complete", () => {
+            socket.emit("update-visit");
+            socket.on("update-complete", () => {
               dispatch(
                 getAllVisitsPage(page, pageSize, JSON.stringify(sort), search)
               );
