@@ -61,13 +61,19 @@ io.on("connection", (socket) => {
     console.log("A user disconnected");
   });
 });
-
+//process.env.SOCKETIOPORT = 3005
 //the socket io port url
 socketServer.listen(process.env.SOCKETIO_PORT, () => {
   console.log(`Socket.IO server listening on port ${process.env.SOCKETIO_PORT}`);
 });
 
 //dealing with the automatic listenning of events end
+
+app.use(express.static(path.resolve( "./frontend/build")));
+app.get("*",(req,res)=>{
+  res.sendFile(path.resolve("./","frontend", "build", "index.html"));
+});
+
 
 if (process.env.NODE_URL !== "PRODUCTION") {
   require("dotenv").config({

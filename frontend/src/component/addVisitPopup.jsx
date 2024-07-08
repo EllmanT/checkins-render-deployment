@@ -78,8 +78,8 @@ const AddVisitPopup = ({
   const socket = io(endpoint); // Replace with your Socket.IO server URL
   const socketId = socketIO(endpoint, { transports: ["websocket"] });
 
-  socket.on("connect", () => {
-    console.log("connected on", socket.id);
+  socketId.on("connect", () => {
+    console.log("connected on", socketId.id);
   });
 
   //dealing with emitting real time changes END
