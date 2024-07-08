@@ -40,8 +40,6 @@ const io = socketIO(socketServer, {
     //origin: "http://localhost:3000", // Replace with the origin of your frontend application
     origin: "https://checkins-render-prod-deployment.onrender.com", // Replace with the origin of your frontend application
     methods: ["GET", "POST"], // Specify the allowed HTTP methods
-    allowedHeaders: ["my-custom-header"], // Specify any custom headers you want to allow
-    credentials: true, // Set to true if you want to allow sending cookies with the request
   },
 });
 io.on("connection", (socket) => {
@@ -63,11 +61,7 @@ io.on("connection", (socket) => {
     console.log("A user disconnected");
   });
 });
-//process.env.SOCKETIOPORT = 3005
-//the socket io port url
-socketServer.listen(`https://checkins-render-prod-deployment.onrender.com:${process.env.SOCKETIO_PORT}`, () => {
-  console.log(`Socket.IO server listening on port https://checkins-render-prod-deployment.onrender.com:${process.env.SOCKETIO_PORT}`);
-});
+
 
 //dealing with the automatic listenning of events end
 
