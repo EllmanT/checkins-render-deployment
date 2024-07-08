@@ -15,11 +15,11 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/", express.static("uploads"));
 app.use(
-  cors({ 
-   // origin: "http://localhost:3000", //url testing
+  cors({
+    // origin: "http://localhost:3000", //url testing
     origin: "https://checkins-render-prod-deployment.onrender.com", // Replace with the origin of your frontend application
 
-   // origin: "checkins-vercel-deployment-frontend.vercel.app", //url for production
+    // origin: "checkins-vercel-deployment-frontend.vercel.app", //url for production
     credentials: true,
   })
 );
@@ -37,13 +37,18 @@ const socketServer = http.createServer(app);
 
 const io = socketIO(socketServer, {
   cors: {
-    //origin: "http://localhost:3000", // Replace with the origin of your frontend application
-    origin: "https://checkins-render-prod-deployment.onrender.com", // Replace with the origin of your frontend application
+    origin: "http://localhost:3000", // Replace with the origin of your frontend application
+    // origin: "https://checkins-render-prod-deployment.onrender.com", // Replace with the origin of your frontend application
     methods: ["GET", "POST"], // Specify the allowed HTTP methods
   },
 });
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
+
+  // socket.on() is used to listen to the events. can be used both on client and server side
+  socket.on("connect", () => {
+    console.log("user connected", socket.id);
+  });
 
   socket.on("update-visit", () => {
     try {
@@ -61,7 +66,6 @@ io.on("connection", (socket) => {
     console.log("A user disconnected");
   });
 });
-
 
 //dealing with the automatic listenning of events end
 
@@ -89,9 +93,9 @@ app.use("/api/v2/visit", visit);
 
 app.use(ErrorHandler);
 
-app.use(express.static(path.resolve( "./frontend/build")));
-app.get("*",(req,res)=>{
-  res.sendFile(path.resolve("./","frontend", "build", "index.html"));
+app.use(express.static(path.resolve("./frontend/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve("./", "frontend", "build", "index.html"));
 });
 
 module.exports = app;
