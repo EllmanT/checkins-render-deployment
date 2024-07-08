@@ -41,7 +41,7 @@ import { endpoint } from "socketIOEndpoint";
 
 const App = () => {
   //dealing with emitting real time changes START
-  const socketId = socketIO(endpoint, { transports: ["websocket"] });
+ // const socketId = socketIO(endpoint, { transports: ["websocket"] });
 
 
 
