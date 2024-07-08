@@ -98,4 +98,8 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve("./", "frontend", "build", "index.html"));
 });
 
+socketServer.listen(process.env.PORT, () => {
+	console.log(`Socket server  is running on port ${process.env.PORT}`);
+});
+
 module.exports = app;
