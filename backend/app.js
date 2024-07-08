@@ -16,7 +16,9 @@ app.use(cookieParser());
 app.use("/", express.static("uploads"));
 app.use(
   cors({ 
-    origin: "http://localhost:3000", //url testing
+   // origin: "http://localhost:3000", //url testing
+    origin: "https://checkins-render-prod-deployment.onrender.com", // Replace with the origin of your frontend application
+
    // origin: "checkins-vercel-deployment-frontend.vercel.app", //url for production
     credentials: true,
   })
@@ -68,12 +70,6 @@ socketServer.listen(process.env.SOCKETIO_PORT, () => {
 });
 
 //dealing with the automatic listenning of events end
-
-app.use(express.static(path.resolve( "./frontend/build")));
-app.get("*",(req,res)=>{
-  res.sendFile(path.resolve("./","frontend", "build", "index.html"));
-});
-
 
 if (process.env.NODE_URL !== "PRODUCTION") {
   require("dotenv").config({
