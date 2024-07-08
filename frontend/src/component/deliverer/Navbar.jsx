@@ -30,6 +30,9 @@ import {
 import { setMode } from "state";
 import { getAllDeliverersPage } from "redux/actions/deliverer";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { server } from "server";
 
 const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
