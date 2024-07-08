@@ -29,17 +29,34 @@ import {
 } from "@mui/icons-material";
 import { setMode } from "state";
 import { getAllDeliverersPage } from "redux/actions/deliverer";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
+  const navigate= useNavigate();
   const theme = useTheme();
   const [anchorEl, setAchorEl] = useState(null);
   const isOpen = Boolean(anchorEl);
+
+  
 
   const { delivererName } = useSelector((state) => state.user);
 
   const handleClick = (event) => setAchorEl(event.currentTarget);
   const handleClose = () => setAchorEl(null);
+
+  const logoutHandler = () => {
+    axios
+      .get(`${server}/user/logout`, { withCredentials: true })
+      .then((res) => {
+        toast.success(res.data.message);
+        window.location.reload(true);
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
+  };
   return (
     <AppBar
       sx={{
@@ -74,16 +91,16 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
             </Button>
           </FlexBetween>
         </FlexBetween>
-
+{/* THe theme setting is not necessary for now */}
         {/**Right Side */}
-        <FlexBetween gap={"1.5rem"}>
-          <IconButton onClick={() => dispatch(setMode())}>
-            {theme.palette.mode === "dark" ? (
-              <DarkModeOutlined sx={{ fontSize: "25px" }} />
-            ) : (
-              <LightModeOutlined sx={{ fontSize: "25px" }} />
-            )}
-          </IconButton>
+         <FlexBetween gap={"1.5rem"}> 
+          {/* <IconButton onClick={() => dispatch(setMode())}> */}
+            {/* {theme.palette.mode === "dark" ? ( */}
+              {/* <DarkModeOutlined sx={{ fontSize: "25px" }} /> */}
+            {/* ) : ( */}
+              {/* <LightModeOutlined sx={{ fontSize: "25px" }} /> */}
+            {/* )} */}
+          {/* </IconButton> */}
           <IconButton>
             <SettingsOutlined sx={{ fontSize: "25px" }} />
           </IconButton>
@@ -128,7 +145,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
             anchorEl={anchorEl}
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           >
-            <MenuItem onClick={handleClick}>Logout</MenuItem>
+            <MenuItem onClick={logoutHandler}>Logout</MenuItem>
           </Menu>
         </FlexBetween>
       </Toolbar>
