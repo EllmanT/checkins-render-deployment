@@ -579,7 +579,7 @@ const GuardDashboardPage = () => {
               },
             }}
           >
-            <TrendingUpOutlined sx={{ mr: "10px" }} />+ walk-in
+          + walk-in
           </Button>
         </Box>
       </FlexBetween>
