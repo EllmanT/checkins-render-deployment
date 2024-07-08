@@ -829,7 +829,7 @@ const AddVisitPopup = ({
                       >
                         <TextField
                           disabled={disableSelect}
-                          //required
+                          required
                           variant="outlined"
                           type="text"
                           label="Reg No."
