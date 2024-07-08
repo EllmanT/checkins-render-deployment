@@ -52,7 +52,8 @@ const GuardDashboardPage = () => {
   const navigate = useNavigate();
 
   //dealing with emitting real time changes START
-  const socketId = socketIO(endpoint, { transports: ["websocket"] });
+  //const socketId = socketIO(endpoint, { transports: ["websocket"] });
+  const socket = io(); // Replace with your Socket.IO server URL
 
 
   //dealing with emitting real time changes END
@@ -517,8 +518,8 @@ const GuardDashboardPage = () => {
         .then(() => {
           toast.success("Visit updated successfully");
           //   handleClose();
-          socketId.emit("update-visit");
-          socketId.on("update-complete", () => {
+          socket.emit("update-visit");
+          socket.on("update-complete", () => {
             dispatch(
               getAllVisitsPage(page, pageSize, JSON.stringify(sort), search)
             );
