@@ -41,20 +41,22 @@ import Store from "redux/store";
 import DataGridCustomToolbar from "component/deliverer/DataGridCustomToolbar";
 import dayjs from "dayjs";
 import { io } from "socket.io-client";
-import  socketIO  from "socket.io-client";
+import socketIO from "socket.io-client";
 import { endpoint } from "socketIOEndpoint";
 
 const VisitsPage = () => {
   const { user, loading } = useSelector((state) => state.user);
   const socket = io(); // Replace with your Socket.IO server URL
   //const ENDPOINT = "http://localhost:3005";
-//const socketId = socketIO(endpoint, { transports: ["websocket"] });
-
+  //const socketId = socketIO(endpoint, { transports: ["websocket"] });
 
   socket.on("connect", () => {
     console.log("connected on", socket.id);
-
   });
+  socket.on("update-complete", (message) => {
+    console.log("message from the backend", message);
+  });
+
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -85,7 +87,12 @@ const VisitsPage = () => {
         page: 0,
       }));
     } else {
-      dispatch(getAllVisitsPage(page, pageSize, JSON.stringify(sort), search));
+      socket.on("update-complete", (message) => {
+        console.log("message from the backend", message);
+        dispatch(
+          getAllVisitsPage(page, pageSize, JSON.stringify(sort), search)
+        );
+      });
     }
   }, [page, pageSize, sort, search, dispatch]);
 
@@ -109,7 +116,6 @@ const VisitsPage = () => {
   const [visitToDeleteName, setVisitToDeleteName] = useState("");
   const [isAddNewCustomerButtonSelected, setIsAddNewCustomerButtonSelected] =
     useState(false);
-
 
   const handleClickOpen = () => {
     setIsAddButtonn(true);
@@ -197,38 +203,34 @@ const VisitsPage = () => {
 
   //functions for dealing with the popover start
   const [isPopupSelected, setIsPopupSelected] = useState(false);
-  const [typeId, setTypeId]= useState("");
+  const [typeId, setTypeId] = useState("");
 
   const [anchorEl, setAnchorEl] = useState(null);
   const id = isPopupSelected ? "simple-popover" : undefined;
-  const authenticateUser = (event,delivererId) => {
+  const authenticateUser = (event, delivererId) => {
     setTypeId(delivererId);
     setIsPopupSelected(true);
-    console.log(delivererId)
-    console.log(isPopupSelected, "ispopuselected")
+    console.log(delivererId);
+    console.log(isPopupSelected, "ispopuselected");
     setAnchorEl(event.currentTarget);
 
-    console.log("anchor El", anchorEl)
-  
-  }
+    console.log("anchor El", anchorEl);
+  };
 
   const handleCloseAuthenticationPopup = (event, delivererId) => {
-    console.log(delivererId, "this is the id")
-    if (delivererId === undefined || delivererId==="backdropClick") {
+    console.log(delivererId, "this is the id");
+    if (delivererId === undefined || delivererId === "backdropClick") {
       setIsPopupSelected(false);
       setAnchorEl(null);
-      console.log("close done", isPopupSelected)
-    }else{
-      setIsPopupSelected(false)
-      handleEdit(delivererId)
-      console.log(delivererId)
+      console.log("close done", isPopupSelected);
+    } else {
+      setIsPopupSelected(false);
+      handleEdit(delivererId);
+      console.log(delivererId);
     }
   };
-  
 
   //functions for dealing with the popover end
-
-
 
   const columns = [
     {
