@@ -65,8 +65,8 @@ io.on("connection", (socket) => {
 });
 //process.env.SOCKETIOPORT = 3005
 //the socket io port url
-socketServer.listen(process.env.SOCKETIO_PORT, () => {
-  console.log(`Socket.IO server listening on port ${process.env.SOCKETIO_PORT}`);
+socketServer.listen(`https://checkins-render-prod-deployment.onrender.com:${process.env.SOCKETIO_PORT}`, () => {
+  console.log(`Socket.IO server listening on port https://checkins-render-prod-deployment.onrender.com:${process.env.SOCKETIO_PORT}`);
 });
 
 //dealing with the automatic listenning of events end
