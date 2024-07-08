@@ -297,8 +297,8 @@ const AddVisitPopup = ({
       if (isAddButton === true && isEditButton === false) {
         dispatch(createVisit(newForm))
           .then(() => {
-            socketId.emit("update-visit");
-            socketId.on("update-complete", (message) => {
+            socket.emit("update-visit");
+            socket.on("update-complete", (message) => {
               console.log("message from the backend", message);
               dispatch(
                 getAllVisitsPage(page, pageSize, JSON.stringify(sort), search)
