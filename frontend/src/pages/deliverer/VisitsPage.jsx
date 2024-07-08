@@ -46,9 +46,9 @@ import { endpoint } from "socketIOEndpoint";
 
 const VisitsPage = () => {
   const { user, loading } = useSelector((state) => state.user);
-  const socket = io(endpoint); // Replace with your Socket.IO server URL
+  const socket = io(); // Replace with your Socket.IO server URL
   //const ENDPOINT = "http://localhost:3005";
-const socketId = socketIO(endpoint, { transports: ["websocket"] });
+//const socketId = socketIO(endpoint, { transports: ["websocket"] });
 
 
   socket.on("connect", () => {
