@@ -75,7 +75,7 @@ const AddVisitPopup = ({
   const { success, error } = useSelector((state) => state.visits);
 
   //dealing with emitting real time changes START
-  const socket = io("http://localhost:3005"); // Replace with your Socket.IO server URL
+  const socket = io(endpoint); // Replace with your Socket.IO server URL
   const socketId = socketIO(endpoint, { transports: ["websocket"] });
 
   socket.on("connect", () => {

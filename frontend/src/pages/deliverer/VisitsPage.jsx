@@ -42,12 +42,13 @@ import DataGridCustomToolbar from "component/deliverer/DataGridCustomToolbar";
 import dayjs from "dayjs";
 import { io } from "socket.io-client";
 import  socketIO  from "socket.io-client";
+import { endpoint } from "socketIOEndpoint";
 
 const VisitsPage = () => {
   const { user, loading } = useSelector((state) => state.user);
-  const socket = io("http://localhost:3005"); // Replace with your Socket.IO server URL
-  const ENDPOINT = "http://localhost:3005";
-const socketId = socketIO(ENDPOINT, { transports: ["websocket"] });
+  const socket = io(endpoint); // Replace with your Socket.IO server URL
+  //const ENDPOINT = "http://localhost:3005";
+const socketId = socketIO(endpoint, { transports: ["websocket"] });
 
 
   socket.on("connect", () => {
