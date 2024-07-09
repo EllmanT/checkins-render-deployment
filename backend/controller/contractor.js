@@ -598,7 +598,7 @@ router.put(
 
 // deleting the contact details for the client
 
-// delete user address
+// delete contact Person details
 router.delete(
   "/delete-contact-person/:contactPersonId",
   isAuthenticated,

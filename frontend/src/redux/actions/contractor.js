@@ -251,9 +251,11 @@ export const deleteContactPerson = (contactPersonId, companyId) => async (dispat
     const { data } = await axios.delete(
       `${server}/contractor/delete-contact-person/${contactPersonId}`,
       {
-        companyId,
-      },
-      { withCredentials: true }
+        withCredentials: true, // Include this option
+        data: {
+          companyId,
+        },
+      }
     );
 
     dispatch({
