@@ -779,7 +779,7 @@ const ContractorsPage = () => {
     setIsEditButtonn(false);
     setIsAddButtonn(true);
     setDisable(false);
-    setDisableSelect(true);
+    setDisableSelect(false);
     setOpenorEditContactDetails(true);
   };
   const [isDeleteContactDetails, setIsDeleteContactDetails] = useState(false);
@@ -802,6 +802,8 @@ const ContractorsPage = () => {
     setContactPersonEmail("");
     setContactPersonId("");
     setCompanyId("");
+    setDisable(false);
+    setDisableSelect(false);
   };
 
   //handle edit and adding contact people
