@@ -31,6 +31,7 @@ import {
   GroupAdd,
   Refresh,
   Search,
+  ContactPhone,
   Visibility,
 } from "@mui/icons-material";
 import FlexBetween from "component/deliverer/FlexBetween";
@@ -38,6 +39,7 @@ import Header from "component/deliverer/Header";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createContractor,
+  deleteContactPerson,
   deleteContractor,
   getAllContractorsPage,
   updateContractor,
@@ -50,8 +52,10 @@ import Stations from "component/deliverer/Stations";
 import DeviceType from "component/deviceType";
 import { DataGrid, GridDeleteIcon } from "@mui/x-data-grid";
 import BasicPopover from "component/deliverer/AuthenticationPopover";
-import socketIO,{ io } from 'socket.io-client';
+import socketIO, { io } from "socket.io-client";
 import { endpoint } from "socketIOEndpoint";
+import { server } from "server";
+import axios from "axios";
 
 let steps = [];
 
@@ -60,9 +64,8 @@ const ContractorsPage = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-const socketId = socketIO(endpoint, {transports:["websocket"]})
 
+  const socketId = socketIO(endpoint, { transports: ["websocket"] });
 
   const [isAddButtonn, setIsAddButtonn] = useState(false);
   const [isEditButtonn, setIsEditButtonn] = useState(false);
@@ -117,14 +120,13 @@ const socketId = socketIO(endpoint, {transports:["websocket"]})
     dContractors = pageContractors ? pageContractors.flatMap((i) => i) : [];
   }
   useEffect(() => {
-      if (page < 0) {
-        setPagee(0); // Reset to the first page if the value is negative
-      } else {
-        dispatch(
-          getAllContractorsPage(page, pageSize, JSON.stringify(sort), search)
-        );
-      }
-  
+    if (page < 0) {
+      setPagee(0); // Reset to the first page if the value is negative
+    } else {
+      dispatch(
+        getAllContractorsPage(page, pageSize, JSON.stringify(sort), search)
+      );
+    }
   }, [page, pageSize, sort, search, dispatch]);
 
   useEffect(() => {
@@ -363,17 +365,16 @@ const socketId = socketIO(endpoint, {transports:["websocket"]})
   const [isDelete, setIsDelete] = useState(false);
 
   const handleDelete = (contractorId) => {
-    if(isDeleteSelected){
+    if (isDeleteSelected) {
       dispatch(deleteContractor(contractorId))
-      .then(() => {
-        toast.success("Contractor deleted successfully");
-        dispatch(getAllContractorsPage());
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message);
-      });
+        .then(() => {
+          toast.success("Contractor deleted successfully");
+          dispatch(getAllContractorsPage());
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message);
+        });
     }
-   
   };
 
   //the steps
@@ -429,6 +430,8 @@ const socketId = socketIO(endpoint, {transports:["websocket"]})
       setOpen(false);
       setIsDeleteSelected(false);
       setIsEditSelected(false);
+      setIsContactDetailsPopupSelected(false);
+      setOpenorEditContactDetails(false);
     }
   };
 
@@ -456,63 +459,64 @@ const socketId = socketIO(endpoint, {transports:["websocket"]})
     newForm.append("serialNumber", serialNumber);
 
     // if (completed[0] && completed[1]) {
-      if (isAddButtonn === true && isEditButtonn === false) {
-        dispatch(createContractor(newForm))
-          .then(() => {
-            socketId.emit("update-visits");
-            socketId.on("update-completed", () => {
+    if (isAddButtonn === true && isEditButtonn === false) {
+      dispatch(createContractor(newForm))
+        .then(() => {
+          socketId.emit("update-visits");
+          socketId.on("update-completed", () => {
             dispatch(getAllContractorsPage());
             // dispatch(getRates());
             handleClose();
             dispatch({ type: "clearMessages" });
-            })
-          })
-          .catch((err) => {
-            toast.error(err.response.message);
           });
-      }
-  
-      if (isAddButtonn === false && isEditButtonn === true) {
-        dispatch(
-          updateContractor(
-            companyId,
-            companyName,
-            taxPayerName,
-            tin,
-            vat,
-            region,
-            station,
-            province,
-            city,
-            street,
-            houseNo,
-            contactName,
-            contactNumber,
-            contactEmail,
-            deviceType,
-            serialNumber
-          )
+        })
+        .catch((err) => {
+          toast.error(err.response.message);
+        });
+    }
+
+    if (isAddButtonn === false && isEditButtonn === true) {
+      dispatch(
+        updateContractor(
+          companyId,
+          companyName,
+          taxPayerName,
+          tin,
+          vat,
+          region,
+          station,
+          province,
+          city,
+          street,
+          houseNo,
+          contactName,
+          contactNumber,
+          contactEmail,
+          deviceType,
+          serialNumber
         )
-          .then(() => {
-            toast.success("Contractor updated successfully");
-            socketId.emit("update-visits");
-            socketId.on("update-completed", () => {
+      )
+        .then(() => {
+          toast.success("Contractor updated successfully");
+          socketId.emit("update-visits");
+          socketId.on("update-completed", () => {
             dispatch(getAllContractorsPage());
             handleClose();
             dispatch({ type: "clearMessages" });
-            })
-          })
-          .catch((error) => {
-            toast.error(error.response.data.message);
           });
-  
-        //edit the customer
-      }
+        })
+        .catch((error) => {
+          toast.error(error.response.data.message);
+        });
 
+      //edit the customer
+    }
   };
 
   //functions for dealing with the popover start
   const [isPopupSelected, setIsPopupSelected] = useState(false);
+  const [isContactDetailsPopupSelected, setIsContactDetailsPopupSelected] =
+    useState(false);
   const [typeId, setTypeId] = useState("");
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -527,6 +531,10 @@ const socketId = socketIO(endpoint, {transports:["websocket"]})
       setIsEditSelected(false);
       setIsDeleteSelected(true);
     }
+    if (isEditorDelete === "contactDetails") {
+      setIsDeleteSelected(false);
+      setIsEditSelected(false);
+    }
     setTypeId(delivererId);
     setIsPopupSelected(true);
     console.log("type Id ", typeId);
@@ -540,19 +548,21 @@ const socketId = socketIO(endpoint, {transports:["websocket"]})
   };
 
   const handleCloseAuthenticationPopup = (event, contractorId) => {
-    console.log("contr id", contractorId)
+    console.log("contr id", contractorId);
     if (contractorId === undefined || contractorId === "backdropClick") {
       setIsPopupSelected(false);
       setAnchorEl(null);
       console.log("close done", isPopupSelected);
     } else {
       setIsPopupSelected(false);
-      if(isEditSelected){
+      if (isEditSelected) {
         handleEditC(contractorId);
-
       }
-      if(isDeleteSelected){
-        handleDelete(contractorId)
+      if (isDeleteSelected) {
+        handleDelete(contractorId);
+      }
+      if (!isDeleteSelected && !isEditSelected) {
+        handleViewContactDetails(contractorId);
       }
     }
   };
@@ -579,8 +589,37 @@ const socketId = socketIO(endpoint, {transports:["websocket"]})
     {
       field: "contactNumber",
       headerName: "Phone Number",
-      flex: 1.5,
+      flex: 1,
       sortable: false,
+    },
+    {
+      field: "contacts",
+      headerName: "contacts",
+      flex: 0.5,
+      renderCell: (params) => (
+        <>
+          <IconButton
+            // color="error"
+            color="info"
+            aria-label="Delete"
+            onClick={(event) =>
+              authenticateUser(event, params.row._id, "contactDetails")
+            }
+          >
+            <ContactPhone />
+          </IconButton>
+
+          {isPopupSelected && (
+            <BasicPopover
+              //labelId={id}
+              typeId={typeId}
+              isPopupSelected={isPopupSelected}
+              anchorEl={anchorEl}
+              handleCloseAuthenticationPopup={handleCloseAuthenticationPopup}
+            />
+          )}
+        </>
+      ),
     },
     {
       field: "options",
@@ -606,7 +645,9 @@ const socketId = socketIO(endpoint, {transports:["websocket"]})
           <IconButton
             color="error"
             aria-label="Delete"
-            onClick={(event) => authenticateUser(event, params.row._id, "delete")}
+            onClick={(event) =>
+              authenticateUser(event, params.row._id, "delete")
+            }
           >
             <GridDeleteIcon />
           </IconButton>
@@ -624,6 +665,204 @@ const socketId = socketIO(endpoint, {transports:["websocket"]})
       ),
     },
   ];
+
+  //defining the columns for to view the clients
+  const [openAddorEditContactDetails, setOpenorEditContactDetails] =
+    useState(false);
+
+  const [clientContactPeopleDetails, setClientContactDetails] = useState();
+  const [contactPersonName, setContactPersonName] = useState("");
+  const [contactPersonEmail, setContactPersonEmail] = useState("");
+  const [contactPersonNumber, setContactPersonNumber] = useState("");
+  const [contactPersonId, setContactPersonId] = useState("");
+
+  const contactColumns = [
+    {
+      field: "contactName",
+      headerName: "Name",
+      flex: 1,
+    },
+    {
+      field: "phoneNumber",
+      headerName: "Number",
+      flex: 1,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      flex: 1.5,
+    },
+
+    {
+      field: "options",
+      headerName: "Options",
+      flex: 1,
+      renderCell: (params) => (
+        <>
+          <IconButton
+            color="info"
+            aria-describedby={id}
+            aria-label="Edit"
+            onClick={() => handleEditContactPersonDetails(params.row._id)}
+          >
+            <EditSharp />
+          </IconButton>
+
+          <IconButton
+            color="error"
+            aria-label="Delete"
+            onClick={() =>
+              handleDeleteContactPersonDetails(params.row._id, companyId)
+            }
+          >
+            <GridDeleteIcon />
+          </IconButton>
+
+          {isPopupSelected && (
+            <BasicPopover
+              //labelId={id}
+              typeId={typeId}
+              isPopupSelected={isPopupSelected}
+              anchorEl={anchorEl}
+              handleCloseAuthenticationPopup={handleCloseAuthenticationPopup}
+            />
+          )}
+        </>
+      ),
+    },
+  ];
+
+  //dealing with adding, editing and deleting the contact details
+
+  const handleViewContactDetails = (contractorId) => {
+    console.log(contractorId);
+    const selectedContractor =
+      pageContractors &&
+      pageContractors.find((contractor) => contractor._id === contractorId);
+
+    setCompanyId(selectedContractor._id);
+    setClientContactDetails(selectedContractor.contactPersons);
+    // setCompanyName(selectedContractor.tradeName);
+    console.log(clientContactPeopleDetails);
+
+    setIsUpdateRate(false);
+    setIsAddButtonn(false);
+    setIsEditButtonn(false);
+    setDisableSelect(true);
+    //setDisable(true);
+    //setOpen(true);
+    setIsContactDetailsPopupSelected(true);
+    //  console.log(companyName);
+  };
+
+  const handleEditContactPersonDetails = (contactPersonId) => {
+    console.log("contractorId", contactPersonId);
+    console.log("contractorId", contactPersonId);
+    const selectedContactPerson =
+      clientContactPeopleDetails &&
+      clientContactPeopleDetails.find(
+        (client) => client._id === contactPersonId
+      );
+    //let specificRates = [];
+    setContactPersonId(selectedContactPerson._id);
+    setContactPersonName(selectedContactPerson.contactName);
+    setContactPersonNumber(selectedContactPerson.phoneNumber);
+    setContactPersonEmail(selectedContactPerson.email);
+    setIsUpdateRate(false);
+    setIsEditButtonn(true);
+    setIsAddButtonn(false);
+    setDisable(true);
+    setDisableSelect(false);
+    setOpenorEditContactDetails(true);
+  };
+  const handleAddContactPersonDetails = () => {
+    setIsEditButtonn(false);
+    setIsAddButtonn(true);
+    setDisable(false);
+    setDisableSelect(true);
+    setOpenorEditContactDetails(true);
+  };
+  const [isDeleteContactDetails, setIsDeleteContactDetails] = useState(false);
+
+  const handleDeleteContactPersonDetails = (contactPersonId, companyId) => {
+    dispatch(deleteContactPerson(contactPersonId, companyId))
+      .then(() => {
+        toast.success("Contact Person deleted successfully");
+        dispatch(getAllContractorsPage());
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message);
+      });
+  };
+
+  const handleCloseEditorAddContactPerson = () => {
+    setOpenorEditContactDetails(false);
+    setContactPersonName("");
+    setContactPersonNumber("");
+    setContactPersonEmail("");
+    setContactPersonId("");
+    setCompanyId("");
+  };
+
+  //handle edit and adding contact people
+
+  //handling the contact person details submissiion
+
+  const handleSubmitContactPersonDetails = async (e) => {
+    setDisable(true);
+    e.preventDefault();
+    const newForm = new FormData();
+    console.log("inside");
+    const tradeCompanyId = companyId;
+    const email = contactPersonEmail;
+    const contactName = contactPersonName;
+    const phoneNumber = contactPersonNumber;
+
+    // newForm.append("tradeCompanyId", tradeCompanyId)
+    // newForm.append("contactPersonId", contactPersonId);
+    // newForm.append("contactName", contactPersonName);
+    // newForm.append("email", contactPersonEmail);
+    // newForm.append("phoneNumber", phoneNumber);
+
+    //we want to add the the contact details to the array for theclient
+    if (!contactPersonId || contactPersonId === "") {
+      await axios
+        .put(
+          `${server}/contractor/update-contact-person`,
+          {
+            contactName,
+            phoneNumber,
+            email,
+            tradeCompanyId,
+          },
+          { withCredentials: true }
+        )
+        .then(() => {
+          socketId.emit("update-visit");
+          socketId.on("update-complete", (message) => {
+            console.log("message from the backend", message);
+            dispatch(
+              getAllContractorsPage(
+                page,
+                pageSize,
+                JSON.stringify(sort),
+                search
+              )
+            );
+
+            handleCloseEditorAddContactPerson();
+            dispatch({ type: "clearMessages" });
+            setDisable(false);
+            // setAddContactDetailsSelected(false);
+          });
+        })
+        .then((error) => {
+          toast.error("Failed to create or edit contact");
+        });
+    }
+    // }
+    //we want to update the contact details if they are present
+  };
 
   return (
     <Box m="1.5rem 2.5rem">
@@ -827,7 +1066,6 @@ const socketId = socketIO(endpoint, {transports:["websocket"]})
                                 type="text"
                                 label="Tax Payer Trade Name"
                                 value={taxPayerName}
-                                
                                 onChange={(e) =>
                                   setTaxPayerName(e.target.value)
                                 }
@@ -1061,8 +1299,7 @@ const socketId = socketIO(endpoint, {transports:["websocket"]})
                                 label="Device Serial Number"
                                 inputProps={{
                                   maxLength: 12,
-                                //  pattern: "[0-9]*",
-                          
+                                  //  pattern: "[0-9]*",
                                 }}
                                 value={serialNumber}
                                 onChange={(e) =>
@@ -1252,9 +1489,268 @@ const socketId = socketIO(endpoint, {transports:["websocket"]})
       </div>
       {/**Add contractor dialogue ends
 
-
-
     {/**This is where the content goes */}
+      <div>
+        <Dialog
+          disableEscapeKeyDown
+          open={isContactDetailsPopupSelected}
+          onClose={handleClose}
+        >
+          <DialogTitle variant="h3" sx={{ m: "0rem 6rem" }}>
+            <Button
+              disabled
+              variant="outlined"
+              sx={{
+                fontSize: "20px",
+                fontWeight: "bold",
+                padding: "10px 20px",
+                ":disabled": {
+                  color: theme.palette.primary[100],
+                },
+              }}
+            >
+              <GroupAdd sx={{ mr: "10px", fontSize: "25px" }} />
+              Client
+            </Button>
+            <Button
+              onClick={handleClose}
+              variant="outlined"
+              color="info"
+              sx={{ ml: "30px" }}
+            >
+              <Close sx={{ fontSize: "25px" }} />
+            </Button>
+          </DialogTitle>
+          <DialogContent>
+            <Box sx={{ width: "100%" }}>
+              <Stepper nonLinear activeStep={activeStep}>
+                {steps.map((label, index) => (
+                  <Step key={label} completed={completed[index]}>
+                    <StepButton color="inherent" onClick={handleStep(index)}>
+                      {label}
+                    </StepButton>
+                  </Step>
+                ))}
+              </Stepper>
+              <div>
+                {
+                  <React.Fragment>
+                    <form onSubmit={handleSubmit}>
+                      <Box
+                        sx={{ mt: "0.5rem" }}
+                        display="flex"
+                        maxWidth={"400px"}
+                        margin={"auto"}
+                        flexDirection="column"
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                      >
+                        <Box display={"flex"} flexDirection={"column"}>
+                          <Box display={"flex"}>
+                            <Button
+                              onClick={handleAddContactPersonDetails}
+                              disabled={disable}
+                              variant="outlined"
+                              fontWeight="bold"
+                              color="success"
+                              sx={{
+                                // backgroundColor: theme.palette.secondary[300],
+                                margin: "0.5rem  ",
+                                border: "solid 0.5px",
+                                ":disabled": {
+                                  backgroundColor: theme.palette.secondary[300],
+                                },
+                              }}
+                            >
+                              <>Add Contact Person</>
+                            </Button>
+                          </Box>
+
+                          <Dialog
+                            open={openAddorEditContactDetails}
+                            onClose={handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                          >
+                            <DialogTitle
+                              id="alert-dialog-title"
+                              sx={{
+                                textAlign: "center",
+                              }}
+                            >
+                              <Typography variant="h4" fontWeight="bold">
+                                New Contact
+                              </Typography>
+                            </DialogTitle>
+                            <DialogContent>
+                              <DialogContentText id="alert-dialog-description">
+                                <FormControl sx={{ m: 1, width: 415 }}>
+                                  <TextField
+                                    disabled={disableSelect}
+                                    required
+                                    variant="filled"
+                                    type="text"
+                                    label="Contact Person Name"
+                                    value={contactPersonName}
+                                    onChange={(e) =>
+                                      setContactPersonName(e.target.value)
+                                    }
+                                    sx={{
+                                      border: "solid",
+
+                                      borderRadius: "5px",
+                                      borderColor:
+                                        //setting the validation for the first input
+                                        contactPersonName !== ""
+                                          ? contactPersonName.length > 2
+                                            ? "green"
+                                            : "red"
+                                          : "red",
+                                    }}
+                                  />
+                                </FormControl>
+                                <Box display={"flex"}>
+                                  <FormControl sx={{ m: 1, width: 200 }}>
+                                    <TextField
+                                      disabled={disableSelect}
+                                      required
+                                      variant="filled"
+                                      type="text"
+                                      label="Contact Phone No."
+                                      value={contactPersonNumber}
+                                      color="info"
+                                      onChange={(e) =>
+                                        setContactPersonNumber(e.target.value)
+                                      }
+                                      sx={{
+                                        border: "solid",
+
+                                        borderRadius: "5px",
+                                        borderColor:
+                                          //setting the validation for the first input
+                                          contactPersonNumber !== ""
+                                            ? contactPersonNumber.length > 6
+                                              ? "green"
+                                              : "red"
+                                            : "red",
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormControl sx={{ m: 1, width: 200 }}>
+                                    <TextField
+                                      disabled={disableSelect}
+                                      required
+                                      variant="filled"
+                                      type="email"
+                                      label="Contact Email"
+                                      value={contactPersonEmail}
+                                      onChange={(e) =>
+                                        setContactPersonEmail(e.target.value)
+                                      }
+                                      sx={{
+                                        border: "solid",
+
+                                        borderRadius: "5px",
+                                        borderColor:
+                                          //setting the validation for the first input
+                                          contactPersonEmail !== ""
+                                            ? contactPersonEmail.length > 6
+                                              ? "green"
+                                              : "red"
+                                            : "red",
+                                      }}
+                                    />
+                                  </FormControl>
+                                </Box>
+                              </DialogContentText>
+                            </DialogContent>
+                            <DialogActions
+                              sx={{
+                                justifyContent: "center",
+                              }}
+                            >
+                              <Button
+                                color="warning"
+                                variant="contained"
+                                onClick={handleCloseEditorAddContactPerson}
+                              >
+                                Cancel
+                              </Button>
+                              <Button
+                                onClick={handleSubmitContactPersonDetails}
+                                type="submit"
+                                color="success"
+                                variant="contained"
+                                autoFocus
+                              >
+                                Update Contact
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
+                        </Box>
+                        <Box
+                          height="50vh"
+                          width="100%"
+                          sx={{
+                            "& .MuiDataGrid-root": {
+                              border: "none",
+                            },
+                            "& .MuiDataGrid-cell": {
+                              borderBottom: "none",
+                            },
+                            "& .MuiDataGrid-columnHeaders": {
+                              backgroundColor: theme.palette.background.alt,
+                              color: theme.palette.secondary[100],
+                              borderBottom: "none",
+                            },
+                            "& .MuiDataGrid-virtualScroller": {
+                              backgroundColor: theme.palette.primary.light,
+                            },
+                            "& .MuiDataGrid-footerContainer": {
+                              backgroundColor: theme.palette.background.alt,
+                              color: theme.palette.secondary[100],
+                              borderTop: "none",
+                            },
+                            "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+                              color: `${theme.palette.secondary[200]} !important`,
+                            },
+                          }}
+                        >
+                          <DataGrid
+                            loading={!clientContactPeopleDetails}
+                            getRowId={(row) => row._id}
+                            rows={
+                              (clientContactPeopleDetails &&
+                                clientContactPeopleDetails) ||
+                              []
+                            }
+                            columns={contactColumns}
+                            rowCount={totalCount || 0}
+                            rowsPerPageOptions={[20, 50, 100]}
+                            pagination
+                            page={page}
+                            pageSize={pageSize}
+                            paginationModel={paginationModel}
+                            onPaginationModelChange={setPaginationModel}
+                            paginationMode="server"
+                            sortingMode="server"
+                            onSortModelChange={(newSortModel) =>
+                              setSort(...newSortModel)
+                            }
+                          />
+                        </Box>
+                      </Box>
+                    </form>
+                  </React.Fragment>
+                }
+              </div>
+            </Box>
+          </DialogContent>
+          <DialogActions></DialogActions>
+        </Dialog>
+      </div>
+      {/* adding the dialogue for the contact details */}
+
       <Box
         height="80vh"
         sx={{
