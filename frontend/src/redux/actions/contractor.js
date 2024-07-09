@@ -202,6 +202,75 @@ export const updateContactPerson =
     }
   };
 
+  
+  // update user address
+export const editContactPerson =
+(contactName, contactNumber, contactEmail, tradeCompanyId) =>
+async (dispatch) => {
+  try {
+    dispatch({
+      type: "updateContactPersonRequest",
+    });
+
+    const { data } = await axios.put(
+      `${server}/contractor/update-contact-person`,
+      {
+        contactName,
+        contactNumber,
+        contactEmail,
+        tradeCompanyId,
+      },
+      { withCredentials: true }
+    );
+
+    // console.log("the contact details", data.contactDetails)
+
+    dispatch({
+      type: "updateContactPersonSuccess",
+      payload: {
+        //  successMessage: "Contact Person details updated succesfully!",
+        contactPerson: data.contactPersonDetails,
+      },
+    });
+  
+  } catch (error) {
+    dispatch({
+      type: "updateContactPersonFailed",
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// delete user address
+export const deleteContactPerson = (contactPersonId, companyId) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "deleteContactPersonRequest",
+    });
+
+    const { data } = await axios.delete(
+      `${server}/contractor/delete-contact-person/${contactPersonId}`,
+      {
+        companyId,
+      },
+      { withCredentials: true }
+    );
+
+    dispatch({
+      type: "deleteContactPersonSuccess",
+      payload: {
+        successMessage: "Contact person deleted successfully!",
+        user: data.contractor,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: "deleteContactPersonFailed",
+      payload: error.response.data.message,
+    });
+  }
+};
+
 // delete Contractor of
 export const deleteContractor = (contractorId) => async (dispatch) => {
   try {

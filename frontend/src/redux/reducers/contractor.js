@@ -112,6 +112,21 @@ export const contractorReducer = createReducer(initialState, {
       state.contactPersonloading = false;
       state.error = action.payload;
     },
+
+          // delete contact person
+  deleteContactPersonRequest: (state) => {
+    state.contactPersonLoading = true;
+  },
+  deleteContactPersonSuccess: (state, action) => {
+    state.contactPersonLoading = false;
+    state.successMessage = action.payload.successMessage;
+    state.contactPerson = action.payload.contactPerson;
+  },
+  deleteContactPersonFailed: (state, action) => {
+    state.contactPersonLoading = false;
+    state.error = action.payload;
+  },
+  
   
 
     // delete Contractor of a shop

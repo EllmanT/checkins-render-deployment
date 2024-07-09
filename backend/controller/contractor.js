@@ -595,4 +595,34 @@ router.put(
   })
 );
 
+
+// deleting the contact details for the client
+
+// delete user address
+router.delete(
+  "/delete-contact-person/:contactPersonId",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const contractorId = req.body.companyId;
+      const contactPersonId = req.params.contactPersonId;
+
+      console.log(contactPersonId);
+
+      await Contractor.updateOne(
+        {
+          _id: contractorId,
+        },
+        { $pull: { contactPersons: { _id: contactPersonId } } }
+      );
+
+      const contractor = await Contractor.findById(contractorId);
+
+      res.status(200).json({ success: true, contractor });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
 module.exports = router;
