@@ -20,7 +20,7 @@ const spreadsheetId = process.env.SPREADSHEET_ID;
   async function accessGoogleSheet() {
     const auth = new google.auth.GoogleAuth({
     // keyFile: "backend/controller/credentialsObject.js", // Path to your service account key file.
-      keyFile: process.env.GOOGLE_APP_CREDENTIALS_PATH,//stored in render
+    keyFile: "/credentials.json",//stored in render
       scopes: ["https://www.googleapis.com/auth/spreadsheets"], // Scope for Google Sheets API.
     });
 
