@@ -134,7 +134,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
                 {user?.role}
               </Typography>
             </Box>
-            <IconButton onclick={logoutHandler}>
+            <IconButton onClick={logoutHandler}>
              <Logout/>
               </IconButton>
            
