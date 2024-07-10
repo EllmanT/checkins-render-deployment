@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   IconButton,
+  Logout,
   InputBase,
   Menu,
   MenuItem,

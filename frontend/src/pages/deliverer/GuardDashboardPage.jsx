@@ -3,6 +3,7 @@ import {
   AnalyticsOutlined,
   Email,
   ExitToAppOutlined,
+  DownloadOutlined,
   ReceiptLongOutlined,
   TrendingUpOutlined,
 } from "@mui/icons-material";
@@ -199,6 +200,12 @@ const GuardDashboardPage = () => {
     );
     return shortMonth;
   };
+
+  const handleComingSoon=()=>{
+    toast('Coming soon....', {
+      icon: '👏',
+    });
+  }
 
   const handleAnalytics = (delivererId) => {
     console.log(delivererId);
