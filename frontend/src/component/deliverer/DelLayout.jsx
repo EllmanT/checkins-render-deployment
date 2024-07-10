@@ -13,7 +13,7 @@ const DelLayout = () => {
     <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
       <Sidebar
         user={user || {}}
-        drawerWidth="250px"
+        drawerWidth="220px"
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
         isNonMobile={isNonMobile}
