@@ -545,9 +545,23 @@ const GuardDashboardPage = () => {
 
   return (
     <Box m="1.5rem 2.5rem">
-      <FlexBetween>
-        <Header title={delivererName} />
-        <Box>
+          <FlexBetween>
+        <Box display="flex">
+        <Button
+            variant="outlined"
+            color="warning"
+            sx={{
+              m: "1rem",
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+              ":hover": {
+                //     backgroundColor: theme.palette.secondary[100],
+              },
+            }}
+          >
+            Dashboard
+          </Button>
           <Button
             variant="outlined"
             color="info"
@@ -560,27 +574,48 @@ const GuardDashboardPage = () => {
                 //  backgroundColor: theme.palette.secondary[100],
               },
             }}
+            onClick={handleComingSoon}
           >
             <AnalyticsOutlined sx={{ mr: "10px" }} />
-            Current Clients : {dContractors.length}
+            Analytics
           </Button>
-        </Box>
-        <Box>
           <Button
-             onClick={handleClickOpen}
             variant="outlined"
-            color="success"
+            color="info"
             sx={{
+              m: "1rem",
               fontSize: "14px",
               fontWeight: "bold",
               padding: "10px 20px",
               ":hover": {
-                // backgroundColor: theme.palette.secondary[300],
+                //     backgroundColor: theme.palette.secondary[100],
               },
             }}
+            onClick={handleComingSoon}
           >
-          + walk-in
+            <DownloadOutlined sx={{ mr: "10px" }} />
+            Reports
           </Button>
+          <Button
+            variant="outlined"
+            color="success"
+            sx={{
+              m: "1rem",
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+              ":hover": {
+                //     backgroundColor: theme.palette.secondary[100],
+              },
+            }}
+            onClick={()=>{
+              navigate("/del-visits");
+            }}          >
+            Walkins
+          </Button>
+        </Box>
+        <Box>
+       
         </Box>
       </FlexBetween>
 

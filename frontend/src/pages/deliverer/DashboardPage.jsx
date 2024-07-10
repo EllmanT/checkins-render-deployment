@@ -264,8 +264,22 @@ const currentTime = `${hours}:${minutes}`;
   return (
     <Box m="1.5rem 2.5rem">
       <FlexBetween>
-        <Header title={delivererName} />
-        <Box>
+        <Box display="flex">
+        <Button
+            variant="outlined"
+            color="warning"
+            sx={{
+              m: "1rem",
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+              ":hover": {
+                //     backgroundColor: theme.palette.secondary[100],
+              },
+            }}
+          >
+            Dashboard
+          </Button>
           <Button
             variant="outlined"
             color="info"
@@ -300,25 +314,26 @@ const currentTime = `${hours}:${minutes}`;
             <DownloadOutlined sx={{ mr: "10px" }} />
             Reports
           </Button>
-        </Box>
-        <Box>
           <Button
-            onClick={()=>{
-              navigate("/del-visits");
-            }}
             variant="outlined"
             color="success"
             sx={{
+              m: "1rem",
               fontSize: "14px",
               fontWeight: "bold",
               padding: "10px 20px",
               ":hover": {
-                // backgroundColor: theme.palette.secondary[300],
+                //     backgroundColor: theme.palette.secondary[100],
               },
             }}
-          >
-            + walk-in
+            onClick={()=>{
+              navigate("/del-visits");
+            }}          >
+            Walkins
           </Button>
+        </Box>
+        <Box>
+       
         </Box>
       </FlexBetween>
 
