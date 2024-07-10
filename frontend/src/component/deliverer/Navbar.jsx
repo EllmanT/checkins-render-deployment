@@ -117,12 +117,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
               display: "flex",
             }}
           >
-            <IconButton>
-                <Avatar  height={"20px"}
-                width={"20px"}
-              //  borderRadius={"50%"}
-                sx={{ objectFit: "cover" }}/>
-              </IconButton>
+          
             <Box>
               <Typography
                 fontWeight={"bold"}
@@ -138,18 +133,12 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
                 {user?.role}
               </Typography>
             </Box>
-            <ArrowDropDownOutlined
-              sx={{ color: theme.palette.secondary[200], fontSize: "25px" }}
-            />
+            <IconButton onclick={logoutHandler}>
+             <Logout/>
+              </IconButton>
+           
           </Button>
-          <Menu
-            open={isOpen}
-            onClose={handleClose}
-            anchorEl={anchorEl}
-            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          >
-            <MenuItem onClick={logoutHandler}>Logout</MenuItem>
-          </Menu>
+         
         </FlexBetween>
       </Toolbar>
     </AppBar>
