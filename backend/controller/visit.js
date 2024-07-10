@@ -25,7 +25,8 @@ console.log("spreadsheet id is", spreadsheetId)
 console.log("credentials are :",credentialsObject)
 async function accessGoogleSheet() {
   const auth = new google.auth.GoogleAuth({
-    keyFile: "backend/controller/credentialsObject.js", // Path to your service account key file.
+    //when testing keyFile: "backend/controller/credential.json", // Path to your service account key file
+    keyFile: "/etc/secrets/credentials.json",//stored in render
     scopes: ["https://www.googleapis.com/auth/spreadsheets"], // Scope for Google Sheets API.
   });
 
