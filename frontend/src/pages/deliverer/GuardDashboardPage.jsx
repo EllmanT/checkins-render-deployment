@@ -604,6 +604,22 @@ const GuardDashboardPage = () => {
             Reports
           </Button>
 
+          <Button
+            variant="outlined"
+            color="info"
+            sx={{
+              m: "1rem",
+              fontSize: "14px",
+              fontWeight: "bold",
+              padding: "10px 20px",
+              ":hover": {
+                //  backgroundColor: theme.palette.secondary[100],
+              },
+            }}
+          >
+            <AnalyticsOutlined sx={{ mr: "10px" }} />
+            Current Clients : {dContractors.length}
+            </Button>
         </Box>
         <Box>
        
