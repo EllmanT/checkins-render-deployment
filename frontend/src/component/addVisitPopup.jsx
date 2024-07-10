@@ -260,7 +260,7 @@ const AddVisitPopup = ({
   }, [tradeCompanyId, contactPersonId]);
 
   const handleSubmit = async (e) => {
-    //setDisable(true);
+    setDisable(true);
     e.preventDefault();
 
     const newForm = new FormData();
