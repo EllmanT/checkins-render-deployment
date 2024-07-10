@@ -603,23 +603,7 @@ const GuardDashboardPage = () => {
             <DownloadOutlined sx={{ mr: "10px" }} />
             Reports
           </Button>
-          <Button
-            variant="outlined"
-            color="success"
-            sx={{
-              m: "1rem",
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-              ":hover": {
-                //     backgroundColor: theme.palette.secondary[100],
-              },
-            }}
-            onClick={()=>{
-              navigate("/del-visits");
-            }}          >
-            Walkins
-          </Button>
+
         </Box>
         <Box>
        
