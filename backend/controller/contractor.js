@@ -13,7 +13,7 @@ const Visit = require("../model/visit");
 const { credentialsObject } = require("./credentialsObject");
 require("dotenv").config();
 
-const spreadsheetId = process.env.SPREADSHEET_ID;
+const spreadsheetId = process.env.CLIENTS_SPREADSHEET_ID;
 
 //counting the number of downloads
 

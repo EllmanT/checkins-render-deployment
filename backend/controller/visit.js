@@ -18,7 +18,7 @@ const { credentialsObject } = require("./credentialsObject");
 require("dotenv").config();
 
 
-const spreadsheetId = process.env.SPREADSHEET_ID;
+const spreadsheetId = process.env.VISITS_SPREADSHEET_ID;
 
 //counting the number of downloads
 console.log("spreadsheet id is", spreadsheetId)
