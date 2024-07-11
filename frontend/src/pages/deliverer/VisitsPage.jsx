@@ -46,14 +46,13 @@ import { endpoint } from "socketIOEndpoint";
 
 const VisitsPage = () => {
   const { user, loading } = useSelector((state) => state.user);
-  // const socket = io("https://checkins-render-prod-deployment.onrender.com"); // Replace with your Socket.IO server URL
-  // //const ENDPOINT = "http://localhost:3005";
-  // //const socketId = socketIO(endpoint, { transports: ["websocket"] });
+  const socket = io("https://checkins-render-prod-deployment.onrender.com"); // Replace with your Socket.IO server URL
+  //const ENDPOINT = "http://localhost:3005";
+  //const socketId = socketIO(endpoint, { transports: ["websocket"] });
 
-  // socket.on("connect", () => {
-  //   console.log("connected on", socket.id);
-  // });
-
+  socket.on("connect", () => {
+    console.log("connected on", socket.id);
+  });
 
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -65,6 +64,7 @@ const VisitsPage = () => {
   const [results, setResults] = useState("");
   const [totalVisits, setTotalVisits] = useState(0);
   const [searchInput, setSearchInput] = useState("");
+  const [renderCount, setRenderCount] = useState(0);
   const { visitsPage, totalCount, isPageVisitsLoading } = useSelector(
     (state) => state.visits
   );
@@ -85,15 +85,19 @@ const VisitsPage = () => {
         page: 0,
       }));
     } else {
-      dispatch(getAllVisitsPage(page, pageSize, JSON.stringify(sort), search));
+      if (renderCount === 0) {
+        dispatch(
+          getAllVisitsPage(page, pageSize, JSON.stringify(sort), search)
+        );
+        setRenderCount(1);
+      }
     }
   }, [page, pageSize, sort, search, dispatch, visitsPage]);
 
-  
-    // socket.on("update-complete", (message) => {
-    //   console.log("message from the backend", message);
-    //   dispatch(getAllVisitsPage(page, pageSize, JSON.stringify(sort), search));
-    // });
+  socket.on("update-complete", (message) => {
+    console.log("message from the backend", message);
+    dispatch(getAllVisitsPage(page, pageSize, JSON.stringify(sort), search));
+  });
 
   if (!isPageVisitsLoading && !loading) {
     console.log(visitsPage);
