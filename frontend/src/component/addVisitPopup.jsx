@@ -230,7 +230,7 @@ const AddVisitPopup = ({
       ? delContractors.flatMap((i) => i.contractors)
       : [];
   }
-
+  
   const handleAutocompleteChange = (selectedCompany) => {
     console.log(selectedCompany);
     setTradeCompanyId(selectedCompany);

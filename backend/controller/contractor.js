@@ -233,9 +233,9 @@ router.get(
         return next(new ErrorHandler("Please log in.", 401));
       }
 
-      const contractors = await Contractor.find({}, { tin: 1, tradeName: 1 });
+      const delivererWithContractors = await Contractor.find({}, { tin: 1, tradeName: 1 });
 
-      if (contractors.length === 0) {
+      if (data.delivererWithContractors.length === 0) {
         return res.status(201).json({
           success: false,
           message: "No results",
@@ -245,7 +245,7 @@ router.get(
       // Return the list of contractors
       res.status(201).json({
         success: true,
-        contractors,
+        delivererWithContractors,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -253,7 +253,7 @@ router.get(
   })
 );
 
-//getting all contractors loop through the ids
+//getting all current contractors loop through the ids
 // router.get(
 //   "/get-all-contractors-deliverer",
 //   isAuthenticated,
@@ -318,7 +318,7 @@ router.get(
 //   })
 //   );
 
-//get all current contractors for deliverer
+//get all current contractors for deliverer without looping
 router.get(
   "/get-all-current-clients-deliverer",
   isAuthenticated,
