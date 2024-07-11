@@ -92,10 +92,10 @@ const VisitsPage = () => {
   }, [page, pageSize, sort, search, dispatch, visitsPage]);
 
   
-
-  useEffect(() => {
+    socket.on("update-complete", (message) => {
+      console.log("message from the backend", message);
       dispatch(getAllVisitsPage(page, pageSize, JSON.stringify(sort), search));
-  }, [page, pageSize, sort, search, dispatch]);
+    });
 
   if (!isPageVisitsLoading && !loading) {
     console.log(visitsPage);
