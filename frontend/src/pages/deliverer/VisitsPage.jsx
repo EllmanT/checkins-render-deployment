@@ -94,7 +94,6 @@ const VisitsPage = () => {
   
 
   useEffect(() => {
-      console.log("message from the backend", message);
       dispatch(getAllVisitsPage(page, pageSize, JSON.stringify(sort), search));
   }, [page, pageSize, sort, search, dispatch]);
 
