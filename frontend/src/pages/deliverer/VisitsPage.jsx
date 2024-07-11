@@ -92,10 +92,10 @@ const VisitsPage = () => {
   }, [page, pageSize, sort, search, dispatch, visitsPage]);
 
   
-    socket.on("update-complete", (message) => {
-      console.log("message from the backend", message);
-      dispatch(getAllVisitsPage(page, pageSize, JSON.stringify(sort), search));
-    });
+    // socket.on("update-complete", (message) => {
+    //   console.log("message from the backend", message);
+    //   dispatch(getAllVisitsPage(page, pageSize, JSON.stringify(sort), search));
+    // });
 
   if (!isPageVisitsLoading && !loading) {
     console.log(visitsPage);
