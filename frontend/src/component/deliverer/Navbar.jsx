@@ -61,6 +61,10 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
         console.log(error.response.data.message);
       });
   };
+
+  const navigateToDashboard=()=>{
+    navigate("/")
+  }
   return (
     <AppBar
       sx={{
@@ -90,6 +94,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
               variant="outlined"
               color="inherit"
               size="large"
+              onClick={navigateToDashboard}
             >
               <Typography>{delivererName}</Typography>
             </Button>
