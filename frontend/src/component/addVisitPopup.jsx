@@ -425,7 +425,7 @@ console.log("contractors",delContractors);
   function renderRow(props) {
     const { data, index, style } = props;
     const dataSet = data[index];
-    const contractor = dContractors[index];
+    const contractor = delContractors&&delContractors[index];
     const { tradeName, tin } = contractor;
     console.log(dataSet);
     const inlineStyle = {
@@ -632,7 +632,7 @@ console.log("contractors",delContractors);
                         // autoComplete="off"
                         PopperComponent={StyledPopper}
                         ListboxComponent={ListboxComponent}
-                        options={dContractors}
+                        options={delContractors&& delContractors}
                         //placeholder="Company Name"
                         getOptionLabel={(contractor) =>
                           contractor
