@@ -53,9 +53,9 @@ const VisitsPage = () => {
   socket.on("connect", () => {
     console.log("connected on", socket.id);
   });
-  socket.on("update-complete", (message) => {
-    console.log("message from the backend", message);
-  });
+  // socket.on("update-complete", (message) => {
+  //   console.log("message from the backend", message);
+  // });
 
   const theme = useTheme();
   const dispatch = useDispatch();
