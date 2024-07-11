@@ -224,10 +224,10 @@ const AddVisitPopup = ({
 
   console.log("visitId", visitId);
   let dContractors = [];
-
+console.log("contractors",delContractors);
   if (!isContrDelLoading) {
     dContractors = delContractors
-      ? delContractors.flatMap((i) => i.contractors)
+      ? delContractors.flatMap((i) => i.delivererWithContractors)
       : [];
   }
   
