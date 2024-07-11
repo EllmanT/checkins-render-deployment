@@ -233,7 +233,7 @@ router.get(
         return next(new ErrorHandler("Please log in.", 401));
       }
 
-      const contractors = await Contractors.find({}, { tin: 1, tradeName: 1 });
+      const contractors = await Contractor.find({}, { tin: 1, tradeName: 1 });
 
       if (contractors.length === 0) {
         return res.status(201).json({
@@ -253,7 +253,72 @@ router.get(
   })
 );
 
-//get all contractors for deliverer
+//getting all contractors loop through the ids
+// router.get(
+//   "/get-all-contractors-deliverer",
+//   isAuthenticated,
+//   catchAsyncErrors(async (req, res, next) => {
+//   try {
+//   //1. find out if the user is deliverer or supplier
+//   const deliverer = await Deliverer.findById(req.user.companyId);
+//   // check to see if deliverer
+//   if (!deliverer) {
+//   return next(new ErrorHandler("Login Pleaseee", 401));
+//   }
+  
+//   json
+//   Copy
+//     const delivererWithContractors = await Deliverer.aggregate([
+//       //get only information about the one deliverer
+//       {
+//         $match: { _id: new mongoose.Types.ObjectId(req.user.companyId) },
+//       },
+//       {
+//         $lookup: {
+//           from: "contractors",
+//           let: { contractorIds: "$contractor_ids" },
+//           pipeline: [
+//             {
+//               $match: {
+//                 $expr: {
+//                   $in: ["$_id", "$$contractorIds"],
+//                 },
+//               },
+//             },
+//             {
+//               $project: {
+//                 tin: 1,
+//                 tradeName: 1,
+//               },
+//             },
+//           ],
+//           as: "contractors",
+//         },
+//       },
+//       {
+//         $project: {
+//           contractors: 1,
+//         },
+//       },
+//     ]);
+//     if (delivererWithContractors.length === 0) {
+//       res.status(201).json({
+//         success: false,
+//         message: "no results",
+//       });
+//     }
+//     // Display the info about the particular contractors for the deliverer
+//     res.status(201).json({
+//       success: true,
+//       delivererWithContractors,
+//     });
+//   } catch (error) {
+//     return next(new ErrorHandler(error.message, 500));
+//   }
+//   })
+//   );
+
+//get all current contractors for deliverer
 router.get(
   "/get-all-current-clients-deliverer",
   isAuthenticated,
