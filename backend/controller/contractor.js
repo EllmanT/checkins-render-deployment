@@ -235,7 +235,7 @@ router.get(
 
       const delivererWithContractors = await Contractor.find({}, { tin: 1, tradeName: 1 });
 
-      if (data.delivererWithContractors.length === 0) {
+      if (delivererWithContractors.length === 0) {
         return res.status(201).json({
           success: false,
           message: "No results",
