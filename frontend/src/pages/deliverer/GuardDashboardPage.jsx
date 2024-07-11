@@ -54,8 +54,6 @@ const GuardDashboardPage = () => {
 
   //dealing with emitting real time changes START
   //const socketId = socketIO(endpoint, { transports: ["websocket"] });
-  const socket = io(); // Replace with your Socket.IO server URL
-
 
   //dealing with emitting real time changes END
 
@@ -82,7 +80,7 @@ const GuardDashboardPage = () => {
   useEffect(() => {
     dispatch(getAllOverallStatsDeliverer());
     dispatch(getLatestVisitsDeliverer());
-      dispatch(getAllCurrentClientsDeliverer());
+    dispatch(getAllCurrentClientsDeliverer());
     dispatch(getAllCurrentClientsDeliverer());
     dispatch(getAllDeliverersPage());
   }, [dispatch]);
@@ -201,11 +199,11 @@ const GuardDashboardPage = () => {
     return shortMonth;
   };
 
-  const handleComingSoon=()=>{
-    toast('Coming soon....', {
-      icon: '👏',
+  const handleComingSoon = () => {
+    toast("Coming soon....", {
+      icon: "👏",
     });
-  }
+  };
 
   const handleAnalytics = (delivererId) => {
     console.log(delivererId);
@@ -426,7 +424,6 @@ const GuardDashboardPage = () => {
   let start = page * pageSize; // Calculate the start index based on the page and pageSize
 
   useEffect(() => {
-    
     if (page < 0) {
       setPaginationModel((prevPaginationModel) => ({
         ...prevPaginationModel,
@@ -490,6 +487,8 @@ const GuardDashboardPage = () => {
   //end of the updating
 
   const handleSubmit = async (e) => {
+    const socket = io(); // Replace with your Socket.IO server URL
+
     setDisable(true);
     e.preventDefault();
 
@@ -546,15 +545,19 @@ const GuardDashboardPage = () => {
       toast.error("Company Name or time is missing");
       setDisable(false);
     }
+
+    return () => {
+      socket.disconnect();
+    };
   };
 
   ///end of the first code
 
   return (
     <Box m="1.5rem 2.5rem">
-          <FlexBetween>
+      <FlexBetween>
         <Box display="flex">
-        <Button
+          <Button
             variant="outlined"
             color="warning"
             sx={{
@@ -619,11 +622,9 @@ const GuardDashboardPage = () => {
           >
             <AnalyticsOutlined sx={{ mr: "10px" }} />
             Current Clients : {dContractors.length}
-            </Button>
+          </Button>
         </Box>
-        <Box>
-       
-        </Box>
+        <Box></Box>
       </FlexBetween>
 
       <Box
