@@ -91,11 +91,23 @@ const VisitsPage = () => {
     }
   }, [page, pageSize, sort, search, dispatch, visitsPage]);
 
-  useEffect(() => {
-    socket.on("update-complete", (message) => {
+  const handleRealTimeUpdate = React.useCallback(
+    (message) => {
       console.log("message from the backend", message);
       dispatch(getAllVisitsPage(page, pageSize, JSON.stringify(sort), search));
-    });
+    },
+    [dispatch, page, pageSize, sort, search]
+  );
+  
+  useEffect(() => {
+    socket.on("update-complete", handleRealTimeUpdate);
+    return () => {
+      socket.off("update-complete", handleRealTimeUpdate);
+    };
+  }, [handleRealTimeUpdate, socket]);
+
+  useEffect(() => {
+      dispatch(getAllVisitsPage(page, pageSize, JSON.stringify(sort), search));
   }, [page, pageSize, sort, search, dispatch]);
 
   if (!isPageVisitsLoading && !loading) {
