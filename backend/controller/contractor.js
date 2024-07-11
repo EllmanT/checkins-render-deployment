@@ -157,62 +157,95 @@ const spreadsheetId = process.env.SPREADSHEET_ID;
 
 accessGoogleSheet();
 
-//get all contractors for deliverer
+//get all contractors for deliverer loopinig through the specific ids
+// router.get(
+//   "/get-all-contractors-deliverer",
+//   isAuthenticated,
+//   catchAsyncErrors(async (req, res, next) => {
+//     try {
+//       //1. find out if the user is deliverer or supplier
+//       const deliverer = await Deliverer.findById(req.user.companyId);
+//       // check to see if deliverer
+//       if (!deliverer) {
+//         return next(new ErrorHandler("Login Pleaseee", 401));
+//       }
+
+//       const delivererWithContractors = await Deliverer.aggregate([
+//         //get only information about the one deliverer
+//         {
+//           $match: { _id: new mongoose.Types.ObjectId(req.user.companyId) },
+//         },
+//         {
+//           $lookup: {
+//             from: "contractors",
+//             let: { contractorIds: "$contractor_ids" },
+//             pipeline: [
+//               {
+//                 $match: {
+//                   $expr: {
+//                     $in: ["$_id", "$$contractorIds"],
+//                   },
+//                 },
+//               },
+//               {
+//                 $project: {
+//                   tin: 1,
+//                   tradeName: 1,
+//                 },
+//               },
+//             ],
+//             as: "contractors",
+//           },
+//         },
+//         {
+//           $project: {
+//             contractors: 1,
+//           },
+//         },
+//       ]);
+//       if (delivererWithContractors.length === 0) {
+//         res.status(201).json({
+//           success: false,
+//           message: "no results",
+//         });
+//       }
+//       // Display the info about the particular contractors for the deliverer
+//       res.status(201).json({
+//         success: true,
+//         delivererWithContractors,
+//       });
+//     } catch (error) {
+//       return next(new ErrorHandler(error.message, 500));
+//     }
+//   })
+// );
+//getting all contractors without needing to loop through the ids
 router.get(
   "/get-all-contractors-deliverer",
   isAuthenticated,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      //1. find out if the user is deliverer or supplier
+      // 1. Find out if the user is a deliverer or supplier
       const deliverer = await Deliverer.findById(req.user.companyId);
-      // check to see if deliverer
+
+      // Check if the user is a deliverer
       if (!deliverer) {
-        return next(new ErrorHandler("Login Pleaseee", 401));
+        return next(new ErrorHandler("Please log in.", 401));
       }
 
-      const delivererWithContractors = await Deliverer.aggregate([
-        //get only information about the one deliverer
-        {
-          $match: { _id: new mongoose.Types.ObjectId(req.user.companyId) },
-        },
-        {
-          $lookup: {
-            from: "contractors",
-            let: { contractorIds: "$contractor_ids" },
-            pipeline: [
-              {
-                $match: {
-                  $expr: {
-                    $in: ["$_id", "$$contractorIds"],
-                  },
-                },
-              },
-              {
-                $project: {
-                  tin: 1,
-                  tradeName: 1,
-                },
-              },
-            ],
-            as: "contractors",
-          },
-        },
-        {
-          $project: {
-            contractors: 1,
-          },
-        },
-      ]);
-      if (delivererWithContractors.length === 0) {
-        res.status(201).json({
+      const contractors = await Contractors.find({}, { tin: 1, tradeName: 1 });
+
+      if (contractors.length === 0) {
+        return res.status(201).json({
           success: false,
-          message: "no results",
+          message: "No results",
         });
       }
-      // Display the info about the particular contractors for the deliverer
+
+      // Return the list of contractors
       res.status(201).json({
         success: true,
-        delivererWithContractors,
+        contractors,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -376,76 +409,139 @@ router.get(
     }
   })
 );
+//getting all contractors for the page while using contractor ids in the deliverer table
+// router.get(
+//   "/get-all-contractors-page",
+//   isAuthenticated,
+//   async (req, res, next) => {
+//     try {
+//       let { page = 0, pageSize = 25, sort = null, search = "" } = req.query;
 
-router.get(
-  "/get-all-contractors-page",
-  isAuthenticated,
-  async (req, res, next) => {
-    try {
-      let { page = 0, pageSize = 25, sort = null, search = "" } = req.query;
+//       // Formatted sort should look like { field: 1 } or { field: -1 }
+//       const generateSort = () => {
+//         const sortParsed = JSON.parse(sort);
+//         const sortOptions = {
+//           [sortParsed.field]: sortParsed.sort === "asc" ? 1 : -1,
+//         };
 
-      // Formatted sort should look like { field: 1 } or { field: -1 }
-      const generateSort = () => {
-        const sortParsed = JSON.parse(sort);
-        const sortOptions = {
-          [sortParsed.field]: sortParsed.sort === "asc" ? 1 : -1,
-        };
+//         return sortOptions;
+//       };
 
-        return sortOptions;
+//       const sortOptions = Boolean(sort) ? generateSort() : { createdAt: -1 };
+
+//       // Find the deliverer based on the company ID
+//       const deliverer = await Deliverer.findById(req.user.companyId);
+//       if (!deliverer) {
+//         return res.status(404).json({
+//           success: false,
+//           message: "Deliverer not found",
+//         });
+//       }
+
+//       // Get the contractor IDs associated with the deliverer
+//       const contractorIds = deliverer.contractor_ids;
+
+//       // Create a search filter with the contractor IDs
+//       const searchFilter = {
+//         _id: { $in: contractorIds },
+//         $or: [
+//           { tradeName: { $regex: search, $options: "i" } },
+//           { city: { $regex: search, $options: "i" } },
+//           { contactName: { $regex: search, $options: "i" } },
+//           // Add other fields to search on as needed
+//         ],
+//       };
+
+//       // Query for the contractors using the search filter
+//       const pageContractors = await Contractor.find(searchFilter)
+//         .sort(sortOptions)
+//         .skip(page * pageSize)
+//         .limit(pageSize)
+//         .lean();
+
+//       if (pageContractors.length === 0) {
+//         return res.status(200).json({
+//           success: true,
+//           message: "No contractors found",
+//         });
+//       }
+
+//       // Get the total count of contractors matching the search criteria
+//       const totalCount = await Contractor.countDocuments(searchFilter);
+
+//       res.status(200).json({
+//         success: true,
+//         pageContractors,
+//         totalCount,
+//       });
+//     } catch (error) {
+//       return next(new ErrorHandler(error.message, 500));
+//     }
+//   }
+// );
+
+//getting all contractors for the page while using contractor ids in the deliverer table
+router.get("/get-all-contractors-page", isAuthenticated, async (req, res, next) => {
+  try {
+    let { page = 0, pageSize = 25, sort = null, search = "" } = req.query;
+
+    // Formatted sort should look like { field: 1 } or { field: -1 }
+    const generateSort = () => {
+      const sortParsed = JSON.parse(sort);
+      const sortOptions = {
+        [sortParsed.field]: sortParsed.sort === "asc" ? 1 : -1,
       };
 
-      const sortOptions = Boolean(sort) ? generateSort() : { createdAt: -1 };
+      return sortOptions;
+    };
 
-      // Find the deliverer based on the company ID
-      const deliverer = await Deliverer.findById(req.user.companyId);
-      if (!deliverer) {
-        return res.status(404).json({
-          success: false,
-          message: "Deliverer not found",
-        });
-      }
+    const sortOptions = Boolean(sort) ? generateSort() : { createdAt: -1 };
 
-      // Get the contractor IDs associated with the deliverer
-      const contractorIds = deliverer.contractor_ids;
-
-      // Create a search filter with the contractor IDs
-      const searchFilter = {
-        _id: { $in: contractorIds },
-        $or: [
-          { tradeName: { $regex: search, $options: "i" } },
-          { city: { $regex: search, $options: "i" } },
-          { contactName: { $regex: search, $options: "i" } },
-          // Add other fields to search on as needed
-        ],
-      };
-
-      // Query for the contractors using the search filter
-      const pageContractors = await Contractor.find(searchFilter)
-        .sort(sortOptions)
-        .skip(page * pageSize)
-        .limit(pageSize)
-        .lean();
-
-      if (pageContractors.length === 0) {
-        return res.status(200).json({
-          success: true,
-          message: "No contractors found",
-        });
-      }
-
-      // Get the total count of contractors matching the search criteria
-      const totalCount = await Contractor.countDocuments(searchFilter);
-
-      res.status(200).json({
-        success: true,
-        pageContractors,
-        totalCount,
+    // Find the deliverer based on the company ID
+    const deliverer = await Deliverer.findById(req.user.companyId);
+    if (!deliverer) {
+      return res.status(404).json({
+        success: false,
+        message: "Deliverer not found",
       });
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
     }
+
+    // Create a search filter with the contractor IDs
+    const searchFilter = {
+      $or: [
+        { tradeName: { $regex: search, $options: "i" } },
+        { city: { $regex: search, $options: "i" } },
+        { contactName: { $regex: search, $options: "i" } },
+        // Add other fields to search on as needed
+      ],
+    };
+
+    // Query for the contractors using the search filter and pagination options
+    const pageContractors = await Contractor.find(searchFilter)
+      .sort(sortOptions)
+      .skip(page * pageSize)
+      .limit(pageSize)
+      .lean();
+
+    if (pageContractors.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No contractors found",
+      });
+    }
+
+    // Get the total count of contractors matching the search criteria
+    const totalCount = await Contractor.countDocuments(searchFilter);
+
+    res.status(200).json({
+      success: true,
+      pageContractors,
+      totalCount,
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
   }
-);
+});
 
 router.put(
   "/update-contractor",
