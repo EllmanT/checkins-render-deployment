@@ -532,6 +532,7 @@ const GuardDashboardPage = () => {
             setTradeCompanyId("");
             setStatus("");
             dispatch(getAllCurrentClientsDeliverer());
+            dispatch(getAllOverallStatsDeliverer());
             dispatch({ type: "clearMessages" });
             setDisable(false);
           });
