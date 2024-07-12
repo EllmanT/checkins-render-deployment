@@ -17,20 +17,18 @@ const sendMail = require("../utils/sendMail");
 const { credentialsObject } = require("./credentialsObject");
 require("dotenv").config();
 
-
 const spreadsheetId = process.env.VISITS_SPREADSHEET_ID;
 
 //counting the number of downloads
-console.log("spreadsheet id is", spreadsheetId)
-console.log("credentials are :",credentialsObject)
+console.log("spreadsheet id is", spreadsheetId);
+console.log("credentials are :", credentialsObject);
 async function accessGoogleSheet() {
   const auth = new google.auth.GoogleAuth({
     //testing updating the credentials pathhh
     //when testing keyFile: "backend/controller/credential.json", // Path to your service account key file
-    keyFile: process.env.GOOGLE_APP_CREDENTIALS_PATH,//stored in render
+    keyFile: process.env.GOOGLE_APP_CREDENTIALS_PATH, //stored in render
     scopes: ["https://www.googleapis.com/auth/spreadsheets"], // Scope for Google Sheets API.
   });
-
 
   const client = await auth.getClient();
   const sheets = google.sheets({ version: "v4", auth });
@@ -330,7 +328,7 @@ router.post(
         }
       }
 
-      const totalContractors = isCompanyDeliverer.contractor_ids.length;
+      const totalContractors = await Contractor.countDocuments({});
       console.log(totalContractors);
 
       let year;
