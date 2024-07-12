@@ -633,9 +633,9 @@ const GuardDashboardPage = () => {
         gridTemplateColumns="repeat(12, 1fr)"
         gridAutoRows="160px"
         gap="20px"
-        sx={{
-          "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
-        }}
+        // sx={{
+        //   "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
+        // }}
       >
         {/* ROW 1 */}
         <StatBox
