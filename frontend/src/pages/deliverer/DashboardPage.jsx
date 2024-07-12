@@ -73,6 +73,18 @@ const DashboardPage = () => {
     dispatch(getAllDeliverersPage());
   }, [dispatch]);
 
+
+  useEffect(() => {
+    const socket = io("https://checkins-render-prod-deployment.onrender.com");
+    socket.connect();
+    socket.on("update-complete", (message) => {
+      console.log("message from the backend", message);
+      dispatch(getAllVisitsPage(getAllOverallStatsDeliverer));
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
     
   console.log(deliverer);
         console.log(user)
