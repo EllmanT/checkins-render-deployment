@@ -35,6 +35,8 @@ import { loadUser } from "redux/actions/user";
 import OverviewVisitsChart from "./chart/OverviewVisitsChart";
 import VisitsBarChart from "component/deliverer/displayCharts/VisitsBarChart";
 import toast from "react-hot-toast";
+import socketIO, { io } from "socket.io-client";
+
 //import DailyVisitsChart from "./charts/OverviewVisitsChart";
 //import OverviewVisitsChart from "./charts/OverviewVisitsChart";
 //import VisitsBarChart from "component/deliverer/charts/VisitsBarChart";
