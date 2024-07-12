@@ -79,7 +79,7 @@ const DashboardPage = () => {
     socket.connect();
     socket.on("update-complete", (message) => {
       console.log("message from the backend", message);
-      dispatch(getAllVisitsPage(getAllOverallStatsDeliverer));
+      dispatch(getAllOverallStatsDeliverer());
     });
     return () => {
       socket.disconnect();
