@@ -34,6 +34,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { server } from "server";
+import logo from "./axis-logo-neat.png"
+
 
 const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
@@ -87,17 +89,15 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
             </IconButton>
           </FlexBetween>
 
-          <FlexBetween backgroundColor={theme.palette.secondary[900]}>
-            <Button
-              gap="1rem"
-              p="0.1rem 1rem"
-              variant="outlined"
-              color="inherit"
-              size="large"
-              onClick={navigateToDashboard}
-            >
-              <Typography>{delivererName}</Typography>
-            </Button>
+          <FlexBetween >
+          <Avatar
+                  src={logo} 
+                     height={"20px"}
+                     width={"20px"}
+                    alt="failed"
+                    // borderRadius={"50%"}
+                    //sx={{ objectFit: "cover" }}
+                  />
           </FlexBetween>
         </FlexBetween>
 {/* THe theme setting is not necessary for now */}

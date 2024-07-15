@@ -176,6 +176,11 @@ const Sidebar = ({
             <Box m="1rem 2rem 2rem 3rem">
               <FlexBetween color={theme.palette.secondary.main}>
                 <Box alignItems={"center"} gap="1.5rem" display={"flex"}>
+                <img
+    src={logo}
+    alt="MyAssistant Logo"
+    style={{ width: "150px", height: "100px" , borderRadius:"20px" }}
+  />
                   <Typography variant="h3" fontWeight={"bold"}>
                     myAssistant
                   </Typography>
