@@ -47,20 +47,21 @@ const DelLoginPage = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <Box
+      <Box
           display="flex"
           maxWidth={"350px"}
           padding={"12px"}
           margin={"auto"}
           //  marginLeft={"auto"}
-          //marginTop={"10px"}
+         // overflow={"hidden"}
+          //marginTop={"4rem"}
           flexDirection="column"
           alignItems={"center"}
           justifyContent={"center"}
           borderRadius={"20px"}
           border="solid 1px"
           borderColor={"#cca752"}
-          boxShadow={"1px 1px 2px #cca752"}
+          boxShadow={"1px 1px 2px #808080"}
         >
           <Box
             display="flex"
@@ -78,7 +79,7 @@ const DelLoginPage = () => {
   />
             <Typography
               variant="h2"
-              fontWeight={"bold"}
+              //fontWeight={"bold"}
               color={theme.palette.secondary[100]}
             >
               myAssistant
@@ -119,7 +120,7 @@ const DelLoginPage = () => {
                 size="large"
                 sx={{
                   color: theme.palette.secondary[100],
-                  backgroundColor: theme.palette.secondary[300],
+                  backgroundColor: theme.palette.secondary[900],
                   margin: "2rem 3rem 3rem ",
                   border: "solid 0.5px",
                   ":hover": {
