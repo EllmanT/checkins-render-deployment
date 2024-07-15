@@ -70,11 +70,11 @@ const DelLoginPage = () => {
             justifyContent={"center"}
           >
 
-{/* <img
+<img
     src="/frontend/src/assets/axis-logo-neat.png"
     alt="MyAssistant Logo here"
     style={{ width: "200px", height: "200px" }}
-  /> */}
+  />
             <Typography
               variant="h2"
               fontWeight={"bold"}
