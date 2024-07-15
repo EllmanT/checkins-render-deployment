@@ -44,7 +44,16 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
   const [anchorEl, setAchorEl] = useState(null);
   const isOpen = Boolean(anchorEl);
 
-  
+  const toDashboard=()=>{
+    if(user.role==="Guard Admin"){
+      navigate("/del-guard-dashboard")
+
+    } else{
+      navigate("/del-dashboard")
+ 
+    }
+  }
+
 
   const { delivererName } = useSelector((state) => state.user);
 
@@ -97,6 +106,8 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
                     alt="failed"
                     // borderRadius={"50%"}
                     //sx={{ objectFit: "cover" }}
+                    onClick={toDashboard}
+                    style={{ cursor: 'pointer' }}
                   />
           </FlexBetween>
         </FlexBetween>
