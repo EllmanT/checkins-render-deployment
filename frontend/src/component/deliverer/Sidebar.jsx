@@ -148,6 +148,9 @@ const Sidebar = ({
   const [active, setActive] = useState();
   const theme = useTheme();
   const navigate = useNavigate();
+  const toDashboard=()=>{
+    navigate("/del-dashboard")
+  }
 
   useEffect(() => {
     setActive(pathname.substring(1));
@@ -175,12 +178,10 @@ const Sidebar = ({
           <Box width={"100%"}>
             <Box m="1rem 2rem 2rem 3rem">
               <FlexBetween color={theme.palette.secondary.main}>
-                <Box alignItems={"center"} gap="1.5rem" display={"flex"}>
-
-                  <Typography variant="h3" fontWeight={"bold"}>
+              <Typography variant="h4" fontWeight={"bold"} onClick={toDashboard}   style={{ cursor: 'pointer' }}>
                     myAssistant
                   </Typography>
-                </Box>
+
 
                 {!isNonMobile && (
                   <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
