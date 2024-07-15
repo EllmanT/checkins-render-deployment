@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { server } from "server";
-import logo from "/frontend/src/assets/axis-logo-neat.png"
+import logo from "./axis-logo-neat.png"
 
 const DelLoginPage = () => {
   const theme = useTheme();
@@ -73,8 +73,8 @@ const DelLoginPage = () => {
 
 <img
     src={logo}
-    alt="MyAssistant Logo here"
-    style={{ width: "200px", height: "200px" }}
+    alt="MyAssistant Logo"
+    style={{ width: "150px", height: "100px" , borderRadius:"20px" }}
   />
             <Typography
               variant="h2"
