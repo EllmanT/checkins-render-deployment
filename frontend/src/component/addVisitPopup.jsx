@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -133,8 +134,9 @@ const AddVisitPopup = ({
         (selectedVisit.contactPersonId === null ||
           selectedVisit.contactPersonId === undefined ||
           selectedVisit.contactPersonId.length === 0) &&
-          (selectedVisit.contractorId.contactPersons?.length === 0||selectedVisit.contractorId.contactPersons===undefined)
-        ) {
+        (selectedVisit.contractorId.contactPersons?.length === 0 ||
+          selectedVisit.contractorId.contactPersons === undefined)
+      ) {
         setAddContactDetailsSelected(true);
       }
       setContactPersonsArray(selectedVisit.contractorId.contactPersons || []);
@@ -172,7 +174,8 @@ const AddVisitPopup = ({
         (selectedVisit.contactPersonId === null ||
           selectedVisit.contactPersonId === undefined ||
           selectedVisit.contactPersonId.length === 0) &&
-        (selectedVisit.contractorId.contactPersons?.length === 0||selectedVisit.contractorId.contactPersons===undefined)
+        (selectedVisit.contractorId.contactPersons?.length === 0 ||
+          selectedVisit.contractorId.contactPersons === undefined)
       ) {
         setAddContactDetailsSelected(true);
       }
@@ -224,13 +227,13 @@ const AddVisitPopup = ({
 
   console.log("visitId", visitId);
   let dContractors = [];
-console.log("contractors",delContractors);
+  console.log("contractors", delContractors);
   if (!isContrDelLoading && delContractors) {
     dContractors = delContractors
       ? delContractors.flatMap((i) => i.delivererWithContractors)
       : [];
   }
-  
+
   const handleAutocompleteChange = (selectedCompany) => {
     console.log(selectedCompany);
     setTradeCompanyId(selectedCompany);
@@ -425,7 +428,7 @@ console.log("contractors",delContractors);
   function renderRow(props) {
     const { data, index, style } = props;
     const dataSet = data[index];
-    const contractor = delContractors&&delContractors[index];
+    const contractor = delContractors && delContractors[index];
     const { tradeName, tin } = contractor;
     console.log(dataSet);
     const inlineStyle = {
@@ -576,21 +579,22 @@ console.log("contractors",delContractors);
   //dealing with selecting a particular contact person end
   return (
     <div>
-      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}  >
-        <DialogTitle variant="h3" sx={{ m: "0rem 6rem" }} display={"flex"}>
-       
-         + Walk In
-
-          <Button
+      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+        <DialogTitle
+          variant="h3"
+          sx={{ m: "0rem 6rem", display: "flex", justifyContent: "center" }}
+        >
+          <span style={{ flex: 1, textAlign: "center" }}>Walk In</span>
+          <IconButton
             onClick={handleClose}
             variant="outlined"
             color="info"
-            sx={{ ml: "30px" }}
+            sx={{ ml: "auto" }}
           >
             <Close sx={{ fontSize: "25px" }} />
-          </Button>
+          </IconButton>
         </DialogTitle>
-        <DialogContent >
+        <DialogContent>
           <form onSubmit={handleSubmit}>
             <Box
               sx={{ mt: "0rem" }}
@@ -620,7 +624,7 @@ console.log("contractors",delContractors);
                         // autoComplete="off"
                         PopperComponent={StyledPopper}
                         ListboxComponent={ListboxComponent}
-                        options={delContractors&& delContractors}
+                        options={delContractors && delContractors}
                         //placeholder="Company Name"
                         getOptionLabel={(contractor) =>
                           contractor
@@ -717,7 +721,8 @@ console.log("contractors",delContractors);
                                 )
                               }
                               isOptionEqualToValue={(option, value) =>
-                               value &&option._id === value._id || value === ""
+                                (value && option._id === value._id) ||
+                                value === ""
                               }
                               options={contactPersonsArray}
                               getOptionLabel={(contact) =>
@@ -743,12 +748,13 @@ console.log("contractors",delContractors);
                         <FormControl sx={{ mt: 1, ml: 1, mr: 1, width: 70 }}>
                           <Button
                             variant="contained"
-                            color={!addContactDetailsSelected?"success":"info"}
+                            color={
+                              !addContactDetailsSelected ? "success" : "info"
+                            }
                             size="small"
                             sx={{ flexDirection: "column" }}
                             onClick={handleAddContactDetails}
                             disabled={disableSelect}
-                          
                           >
                             <Add />
                             {!addContactDetailsSelected
