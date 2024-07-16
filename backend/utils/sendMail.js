@@ -1,7 +1,6 @@
 const nodemailer = require("nodemailer");
 
 const hbs = require("nodemailer-express-handlebars");
-
 const sendMail = async (options) => {
   const transporter = nodemailer.createTransport({
     host: process.env.SMPT_HOST,
@@ -22,6 +21,7 @@ const sendMail = async (options) => {
   };
 
   transporter.use("compile", hbs(hbsOptions));
+
   const mailOptions = {
     from: {
       name: "Axis Solutions",
@@ -29,7 +29,7 @@ const sendMail = async (options) => {
     },
     to: options.email,
     subject: options.subject,
-    text: options.message,
+   // text: options.message,
     template: "emailResponse",
   };
 
