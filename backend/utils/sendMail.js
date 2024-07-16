@@ -11,10 +11,15 @@ const sendMail = async (options) => {
     },
   });
   const mailOptions = {
-    from: process.env.SMPT_MAIL,
+    from: 
+    {
+      name:"Axis Solutions",
+      address:process.env.SMPT_MAIL,
+    },
     to: options.email,
     subject: options.subject,
     text: options.message,
+    //html:
   };
   await transporter.sendMail(mailOptions);
 };

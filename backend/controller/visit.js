@@ -253,11 +253,24 @@ async function accessGoogleSheet() {
 
           //writing the email to notify the client
 
+          const automaticResponse = `
+Dear ${contractor.taxPayerName},
+
+Thank you for visiting our office. We appreciate your time and trust in our services. We hope that your experience with us was positive and met your expectations.
+
+If you have any further questions, concerns, or feedback, please don't hesitate to reach out to us. We value your input and strive to continuously improve our services.
+
+We look forward to assisting you again in the future. Travel safe and have a wonderful day!
+
+Best regards,
+
+<img src="./footer-image.jpg" alt="Footer Image" style="display: block; margin-top: 1rem;">
+`;
           try {
             await sendMail({
               email: email,
               subject: "Thank you for visiting Axis Solutions!",
-              message: `Dear ${contractor.taxPayerName}. We hope you received the 5 star service that you deserve! Travel safe and see you soon!  `,
+              message: automaticResponse,
             });
           } catch (error) {
             return next(new ErrorHandler(error.message, 500));
