@@ -576,7 +576,7 @@ console.log("contractors",delContractors);
   //dealing with selecting a particular contact person end
   return (
     <div>
-      <Dialog disableEscapeKeyDown open={open} onClose={handleClose} style={{ minHeight: '900px' }} >
+      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}  >
         <DialogTitle variant="h3" sx={{ m: "0rem 6rem" }}>
           <Button
             disabled
