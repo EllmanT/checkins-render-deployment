@@ -271,7 +271,6 @@ Best regards,
               email: email,
               subject: "Thank you for visiting Axis Solutions!",
               message: automaticResponse,
-              template,
             });
           } catch (error) {
             return next(new ErrorHandler(error.message, 500));
