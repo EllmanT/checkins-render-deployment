@@ -602,7 +602,7 @@ console.log("contractors",delContractors);
             <Close sx={{ fontSize: "25px" }} />
           </Button>
         </DialogTitle>
-        <DialogContent sx={{ overflow: "hidden" }}>
+        <DialogContent >
           <form onSubmit={handleSubmit}>
             <Box
               sx={{ mt: "0rem" }}
