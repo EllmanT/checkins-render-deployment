@@ -17,7 +17,7 @@ const sendMail = async (options) => {
     viewEngine: {
       defaultLayout: false,
     },
-    viewPath: "/backend/utils/email_template",
+    viewPath: "./email_template",
   };
 
   transporter.use("compile", hbs(hbsOptions));
