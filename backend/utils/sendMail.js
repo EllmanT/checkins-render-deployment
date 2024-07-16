@@ -11,7 +11,7 @@ const sendMail = async (options) => {
     },
   });
 
-  const imagePath = "./footer-image.png"; // Update the image path as per your file location
+ // const imagePath = "./footer-image.png"; // Update the image path as per your file location
 
   const mailOptions = {
     from: {
@@ -21,7 +21,7 @@ const sendMail = async (options) => {
     to: options.email,
     subject: options.subject,
     text: options.message,
-    html: `<img src="${imagePath}" alt="Footer Image" style="display: block; margin-top: 1rem;">`,
+  //  html: `<img src="${imagePath}" alt="Footer Image" style="display: block; margin-top: 1rem;">`,
   };
 
   await transporter.sendMail(mailOptions);
