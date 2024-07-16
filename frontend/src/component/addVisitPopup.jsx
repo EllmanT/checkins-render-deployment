@@ -583,9 +583,7 @@ const AddVisitPopup = ({
       <DialogTitle variant="h3" sx={{ m: "0rem 6rem", display: "flex", alignItems: "center" }}>
   <span style={{ flex: 1, textAlign: "center" }}>
     <span style={{ marginRight: "10px" }}><b>Walk In</b></span>
-    <Button onClick={handleClose} variant="outlined" color="info">
-      <Close sx={{ fontSize: "25px" }} />
-    </Button>
+      <Close sx={{ fontSize: "25px" }}  onClick={handleClose}/>
   </span>
 </DialogTitle>
         <DialogContent>
