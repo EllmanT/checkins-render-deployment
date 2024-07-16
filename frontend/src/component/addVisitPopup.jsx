@@ -577,12 +577,10 @@ console.log("contractors",delContractors);
   return (
     <div>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}  >
-        <DialogTitle variant="h3" sx={{ m: "0rem 6rem" }}>
+        <DialogTitle variant="h3" sx={{ m: "0rem 6rem" }} display={"flex"}>
        
-          <Typography variant="h3">
          + Walk In
 
-          </Typography>
           <Button
             onClick={handleClose}
             variant="outlined"
