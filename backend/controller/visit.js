@@ -16,7 +16,6 @@ const contractor = require("../model/contractor");
 const sendMail = require("../utils/sendMail");
 const { credentialsObject } = require("./credentialsObject");
 require("dotenv").config();
-const footerUrl = require("./footer-image.png")
 
 const spreadsheetId = process.env.VISITS_SPREADSHEET_ID;
 
