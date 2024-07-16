@@ -580,20 +580,14 @@ const AddVisitPopup = ({
   return (
     <div>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
-        <DialogTitle
-          variant="h3"
-          sx={{ m: "0rem 6rem", display: "flex", justifyContent: "center" }}
-        >
-          <span style={{ flex: 1, textAlign: "center" }}>Walk In</span>
-          <IconButton
-            onClick={handleClose}
-            variant="outlined"
-            color="info"
-            sx={{ ml: "auto" }}
-          >
-            <Close sx={{ fontSize: "25px" }} />
-          </IconButton>
-        </DialogTitle>
+      <DialogTitle variant="h3" sx={{ m: "0rem 6rem", display: "flex", alignItems: "center" }}>
+  <span style={{ flex: 1, textAlign: "center" }}>
+    <span style={{ marginRight: "10px" }}><b>Walk In</b></span>
+    <Button onClick={handleClose} variant="outlined" color="info">
+      <Close sx={{ fontSize: "25px" }} />
+    </Button>
+  </span>
+</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit}>
             <Box
