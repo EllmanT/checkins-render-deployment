@@ -10,17 +10,21 @@ const sendMail = async (options) => {
       pass: process.env.SMPT_PASSWORD,
     },
   });
+
+  const imagePath = "./footer-image.png"; // Update the image path as per your file location
+
   const mailOptions = {
-    from: 
-    {
-      name:"Axis Solutions",
-      address:process.env.SMPT_MAIL,
+    from: {
+      name: "Axis Solutions",
+      address: process.env.SMPT_MAIL,
     },
     to: options.email,
     subject: options.subject,
     text: options.message,
-    html:` <img src="./footer-image.png" alt="Footer Image" style="display: block; margin-top: 1rem;">`
+    html: `<img src="${imagePath}" alt="Footer Image" style="display: block; margin-top: 1rem;">`,
   };
+
   await transporter.sendMail(mailOptions);
 };
+
 module.exports = sendMail;
