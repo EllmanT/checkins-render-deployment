@@ -252,7 +252,6 @@ async function accessGoogleSheet() {
           writeSheetData(req.body);
 
           //writing the email to notify the client
-          const imagePath = "./footer-image.png"; // Update the image path as per your file location
 
           const automaticResponse = `
 Dear ${contractor.taxPayerName},
@@ -272,8 +271,7 @@ Best regards,
               email: email,
               subject: "Thank you for visiting Axis Solutions!",
               message: automaticResponse,
-           //   html: `<img src="${imagePath}" alt="Footer Image" style="display: block; margin-top: 1rem;">`,
-
+              template,
             });
           } catch (error) {
             return next(new ErrorHandler(error.message, 500));

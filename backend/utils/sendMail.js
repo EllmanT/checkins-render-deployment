@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const hbs = require("nodemailer-express-handlebars");
 
 const sendMail = async (options) => {
   const transporter = nodemailer.createTransport({
@@ -11,8 +12,15 @@ const sendMail = async (options) => {
     },
   });
 
- // const imagePath = "./footer-image.png"; // Update the image path as per your file location
+  //configuring the handlebars plugin
+  const hbsOptions = {
+    viewEngine: {
+      defaultLayout: false,
+    },
+    viewPath: "/backend/utils/email_template",
+  };
 
+  transporter.use("compile", hbs(hbsOptions));
   const mailOptions = {
     from: {
       name: "Axis Solutions",
@@ -21,7 +29,7 @@ const sendMail = async (options) => {
     to: options.email,
     subject: options.subject,
     text: options.message,
-  //  html: `<img src="${imagePath}" alt="Footer Image" style="display: block; margin-top: 1rem;">`,
+    template: "emailResponse",
   };
 
   await transporter.sendMail(mailOptions);
