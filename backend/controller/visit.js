@@ -264,7 +264,6 @@ We look forward to assisting you again in the future. Travel safe and have a won
 
 Best regards,
 
-<img src="./footer-image.png" alt="Footer Image" style="display: block; margin-top: 1rem;">
 `;
           try {
             await sendMail({

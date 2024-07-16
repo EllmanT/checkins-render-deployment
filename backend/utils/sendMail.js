@@ -19,7 +19,7 @@ const sendMail = async (options) => {
     to: options.email,
     subject: options.subject,
     text: options.message,
-    //html:
+    html:` <img src="./footer-image.png" alt="Footer Image" style="display: block; margin-top: 1rem;">`
   };
   await transporter.sendMail(mailOptions);
 };
