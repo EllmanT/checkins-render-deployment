@@ -578,21 +578,11 @@ console.log("contractors",delContractors);
     <div>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}  >
         <DialogTitle variant="h3" sx={{ m: "0rem 6rem" }}>
-          <Button
-            disabled
-            variant="outlined"
-            sx={{
-              fontSize: "20px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-              ":disabled": {
-                color: theme.palette.primary[100],
-              },
-            }}
-          >
-            <GroupAdd sx={{ mr: "10px", fontSize: "25px" }} />
-            Walk In
-          </Button>
+       
+          <Typography variant="h3">
+         + Walk In
+
+          </Typography>
           <Button
             onClick={handleClose}
             variant="outlined"
