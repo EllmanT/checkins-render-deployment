@@ -29,7 +29,7 @@ const sendMail = async (options) => {
     },
     to: options.email,
     subject: options.subject,
-   // text: options.message,
+    text: options.message,
     template: "emailResponse",
   };
 
