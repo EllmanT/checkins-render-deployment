@@ -52,7 +52,7 @@ const sendMail = async (options) => {
 <p>We look forward to assisting you again in the future. Travel safe and have a wonderful day!
 </p>
 <p>Best Regards</p>
-    <img src="https://ibb.co/dbvwfnj" alt="Footer Image" style="display: block; margin-top: 1rem;">
+    <img src="https://ibb.co/V06MBvW" alt="Footer Image" style="display: block; margin-top: 1rem;">
 
 </body>
 </html>
