@@ -13,14 +13,14 @@ const sendMail = async (options) => {
   });
 
   //configuring the handlebars plugin
-  const hbsOptions = {
-    viewEngine: {
-      defaultLayout: false,
-    },
-    viewPath: "/backend/utils/email_template",
-  };
+  // const hbsOptions = {
+  //   viewEngine: {
+  //     defaultLayout: false,
+  //   },
+  //   viewPath: "/backend/utils/email_template",
+  // };
 
-  transporter.use("compile", hbs(hbsOptions));
+  // transporter.use("compile", hbs(hbsOptions));
 
   const mailOptions = {
     from: {
@@ -30,7 +30,26 @@ const sendMail = async (options) => {
     to: options.email,
     subject: options.subject,
     text: options.message,
-    template: "emailResponse",
+ //   template: "emailResponse",
+    html: `
+    
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>
+        Testing handlebars
+        
+    </h1>
+    <img src="./footer-image.png" alt="Footer Image" style="display: block; margin-top: 1rem;">
+
+</body>
+</html>
+    `
   };
 
   await transporter.sendMail(mailOptions);
