@@ -41,12 +41,18 @@ const sendMail = async (options) => {
     <title>Document</title>
 </head>
 <body>
-    <h1>
-        Testing handlebars
+    <h3>
+  Dear ${options.message},
         
-    </h1>
-    <p>${options.message}</p>
-    <img src="./footer-image.png" alt="Footer Image" style="display: block; margin-top: 1rem;">
+    </h3>
+<p>Thank you for visiting our office. We appreciate your time and trust in our services. We hope that your experience with us was positive and met your expectations.
+</p>
+<p>If you have any further questions, concerns, or feedback, please don't hesitate to reach out to us. We value your input and strive to continuously improve our services.
+</p>
+<p>We look forward to assisting you again in the future. Travel safe and have a wonderful day!
+</p>
+<p>Best Regards</p>
+    <img src="footer-image.png" alt="Footer Image" style="display: block; margin-top: 1rem;">
 
 </body>
 </html>
