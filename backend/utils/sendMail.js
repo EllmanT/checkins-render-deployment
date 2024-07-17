@@ -29,7 +29,7 @@ const sendMail = async (options) => {
     },
     to: options.email,
     subject: options.subject,
-    text: options.message,
+  //  text: options.message,
  //   template: "emailResponse",
     html: `
     
@@ -45,6 +45,7 @@ const sendMail = async (options) => {
         Testing handlebars
         
     </h1>
+    <p>${options.message}</p>
     <img src="./footer-image.png" alt="Footer Image" style="display: block; margin-top: 1rem;">
 
 </body>
