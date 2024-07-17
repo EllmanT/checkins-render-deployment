@@ -25,7 +25,7 @@ const sendMail = async (options) => {
   const mailOptions = {
     from: {
       name: "Axis Solutions",
-      address: process.env.SMPT_MAIL,
+      address: "revmax@axissol.com",
     },
     to: options.email,
     subject: options.subject,
