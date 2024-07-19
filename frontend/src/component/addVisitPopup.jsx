@@ -577,6 +577,36 @@ const AddVisitPopup = ({
   // Function to handle contact person selection
 
   //dealing with selecting a particular contact person end
+
+  const [openAC, setOpenAC] = React.useState(false);
+  //const [options, setOptions] = React.useState([]);
+  const loadingAC = openAC && (delContractors.length === 0|| delContractors===undefined);
+
+  React.useEffect(() => {
+    let active = true;
+
+    if (!loadingAC) {
+      return undefined;
+    }
+
+    (async () => {
+      await sleep(1e3); // For demo purposes.
+
+      if (active) {
+       // setOptions([...topFilms]);
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [loadingAC]);
+
+  React.useEffect(() => {
+    if (!openAC) {
+      setOptions([]);
+    }
+  }, [openAC]);
   return (
     <div>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
@@ -604,6 +634,16 @@ const AddVisitPopup = ({
                   {!isAddNewCustomerButtonSelected ? (
                     <FormControl sx={{ mt: 0.7, ml: 1, mr: 1, width: 385 }}>
                       <Autocomplete
+                      //dealing with loading before request is done
+                      open={openAC}
+                      onOpenAC={() => {
+                        setOpenAC(true);
+                      }}
+                      onClose={() => {
+                        setOpenAC(false);
+                      }}
+                      loading={loadingAC}
+                      //ending of delaing with 
                         disabled={disableSelect}
                         id="virtualize-demo"
                         sx={{ width: 385, color: "success" }}
