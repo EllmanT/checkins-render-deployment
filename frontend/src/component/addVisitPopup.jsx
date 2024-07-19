@@ -577,6 +577,14 @@ const AddVisitPopup = ({
   // Function to handle contact person selection
 
   //dealing with selecting a particular contact person end
+  function sleep(duration) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, duration);
+    });
+  }
+  
 
   const [openAC, setOpenAC] = React.useState(false);
   const [options, setOptions] = React.useState([]);
