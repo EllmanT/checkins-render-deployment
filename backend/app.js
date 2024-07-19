@@ -17,8 +17,8 @@ app.use("/", express.static("uploads"));
 app.use(
   cors({
     // origin: "http://localhost:3000", //url testing
-    // origin: "https://checkins-render-prod-deployment.onrender.com", // Replace with the origin of your frontend application
-    origin:"https://www.myassistant.co.zw", // Replace with the origin of your frontend application
+     origin: "https://checkins-render-prod-deployment.onrender.com", // Replace with the origin of your frontend application
+    //origin:"https://www.myassistant.co.zw", // Replace with the origin of your frontend application
 
     // origin: "checkins-vercel-deployment-frontend.vercel.app", //url for production
     credentials: true,
