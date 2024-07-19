@@ -92,6 +92,7 @@ const VisitsPage = () => {
   }, [page, pageSize, sort, search, dispatch, visitsPage]);
 
   useEffect(() => {
+    //
      const socket = io("https://checkins-render-prod-deployment.onrender.com");
     //const socket = io("https://www.myassistant.co.zw");
     socket.connect();
