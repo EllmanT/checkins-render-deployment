@@ -579,7 +579,7 @@ const AddVisitPopup = ({
   //dealing with selecting a particular contact person end
 
   const [openAC, setOpenAC] = React.useState(false);
-  //const [options, setOptions] = React.useState([]);
+  const [options, setOptions] = React.useState([]);
   const loadingAC = openAC && (delContractors.length === 0|| delContractors===undefined);
 
   React.useEffect(() => {
@@ -593,7 +593,7 @@ const AddVisitPopup = ({
       await sleep(1e3); // For demo purposes.
 
       if (active) {
-       // setOptions([...topFilms]);
+        setOptions([...delContractors]);
       }
     })();
 
