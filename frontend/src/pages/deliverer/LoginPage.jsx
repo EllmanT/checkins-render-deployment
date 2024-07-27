@@ -31,7 +31,7 @@ const DelLoginPage = () => {
         toast.success("Login successfull!");
         
         navigate("/");
-        // window.location.reload(false);
+        window.location.reload(false);
         setDisable(false);
       })
       .catch((error) => {
