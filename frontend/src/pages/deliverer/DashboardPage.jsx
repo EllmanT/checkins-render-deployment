@@ -459,7 +459,7 @@ const currentTime = `${hours}:${minutes}`;
           gridColumn="span 6"
           gridRow="span 3"
           boxShadow="3px 5px 8px #ccc"
-          // backgroundColor={theme.palette.background.alt}
+          backgroundColor={theme.palette.background.alt}
           //alignItems="center"
           display="flex"
           flexDirection="column"
@@ -481,12 +481,12 @@ const currentTime = `${hours}:${minutes}`;
               backgroundColor: theme.palette.background.alt,
             },
             "& .MuiDataGrid-footerContainer": {
-              backgroundColor: theme.palette.background.alt,
+              // backgroundColor: theme.palette.background.alt,
               color: theme.palette.secondary[100],
               // borderTop: "none",
             },
             "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-              color: `${theme.palette.secondary[200]} !important`,
+              // color: `${theme.palette.secondary[200]} !important`,
             },
           }}
         >
