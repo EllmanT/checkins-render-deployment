@@ -652,7 +652,7 @@ const AddVisitPopup = ({
                       <FormControl sx={{ mt: 0.5, ml: 1, mr: 1, width: 250 }}>
                         <TextField
                           disabled={disableSelect}
-                          //required
+                          required
                           variant="outlined"
                           type="text"
                           label="Company Name"
