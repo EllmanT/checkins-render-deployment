@@ -622,7 +622,7 @@ const GuardDashboardPage = () => {
             }}
           >
             {/* <AnalyticsOutlined sx={{ mr: "10px" }} /> */}
-            Current Clients : {dContractors.length}
+            Clients In : {dContractors.length}
           </Button>
         </Box>
         <Box></Box>
