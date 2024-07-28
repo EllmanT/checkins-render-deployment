@@ -6,9 +6,9 @@ import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 
 const DelLayout = () => {
-  const isNonMobile = useMediaQuery("(min-width:800px)");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(isNonMobile);
   const { user } = useSelector((state) => state.user);
+  const isNonMobile = useMediaQuery("(min-width:800px)");
+  const isUserGuard = user && user.user.role === "Guard Admin";  const [isSidebarOpen, setIsSidebarOpen] = useState(isNonMobile);
   console.log("CHECKING IS NON MOBILE", isNonMobile);
   const handleResize = () => {
     if (!isNonMobile) {
@@ -32,7 +32,7 @@ const DelLayout = () => {
       <Sidebar
         user={user || {}}
         drawerWidth="220px"
-        isSidebarOpen={isSidebarOpen}
+        isSidebarOpen={isUserGuard ?false : isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
         isNonMobile={isNonMobile}
       />
