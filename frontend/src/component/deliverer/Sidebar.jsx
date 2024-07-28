@@ -149,7 +149,13 @@ const Sidebar = ({
   const theme = useTheme();
   const navigate = useNavigate();
   const toDashboard=()=>{
-    navigate("/del-dashboard")
+
+    if(user && user.role !=="Guard Admin"){
+      navigate("/del-guard-dashboard")
+
+    }else {
+      navigate("/del-dashboard")
+    }
   }
 
   useEffect(() => {
