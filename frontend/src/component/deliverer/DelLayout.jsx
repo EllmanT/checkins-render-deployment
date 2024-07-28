@@ -6,7 +6,7 @@ import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 
 const DelLayout = () => {
-  const isNonMobile = useMediaQuery("(min-width:700px)");
+  const isNonMobile = useMediaQuery("(min-width:800px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(isNonMobile);
   const { user } = useSelector((state) => state.user);
   console.log("CHECKING IS NON MOBILE", isNonMobile);
