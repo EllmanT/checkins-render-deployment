@@ -10,6 +10,22 @@ const DelLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(isNonMobile);
   const { user } = useSelector((state) => state.user);
   console.log("CHECKING IS NON MOBILE", isNonMobile);
+  const handleResize = () => {
+    if (!isNonMobile) {
+      // Close the sidebar if the screen size is mobile
+      setIsSidebarOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    // Listen for window resize events
+    window.addEventListener('resize', handleResize);
+    return () => {
+      // Clean up the event listener
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isNonMobile]);
+
   return (
     <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
       <Sidebar
