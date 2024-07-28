@@ -621,7 +621,7 @@ const GuardDashboardPage = () => {
               },
             }}
           >
-            <AnalyticsOutlined sx={{ mr: "10px" }} />
+            {/* <AnalyticsOutlined sx={{ mr: "10px" }} /> */}
             Current Clients : {dContractors.length}
           </Button>
         </Box>
