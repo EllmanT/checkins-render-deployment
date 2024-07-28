@@ -12,8 +12,9 @@ const DelLayout = () => {
   console.log("CHECKING IS NON MOBILE", isNonMobile);
   const handleResize = () => {
     if (!isNonMobile) {
-      // Close the sidebar if the screen size is mobile
-      setIsSidebarOpen(false);
+      setIsSidebarOpen(false); // Close the sidebar if the screen size is mobile
+    } else {
+      setIsSidebarOpen(true); // Open the sidebar if the screen size is non-mobile
     }
   };
 
