@@ -9,6 +9,7 @@ const DelLayout = () => {
   const isNonMobile = useMediaQuery("(min-width:400px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(isNonMobile);
   const { user } = useSelector((state) => state.user);
+  console.log("CHECKING IS NON MOBILE", isNonMobile);
   return (
     <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
       <Sidebar
@@ -26,7 +27,6 @@ const DelLayout = () => {
         />
         <Outlet />
       </Box>
-
     </Box>
   );
 };
