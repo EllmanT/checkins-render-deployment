@@ -151,10 +151,11 @@ const Sidebar = ({
   const toDashboard=()=>{
 
     if(user && user.role !=="Guard Admin"){
-      navigate("/del-guard-dashboard")
+      navigate("/del-dashboard")
 
     }else {
-      navigate("/del-dashboard")
+      navigate("/del-guard-dashboard")
+
     }
   }
 
