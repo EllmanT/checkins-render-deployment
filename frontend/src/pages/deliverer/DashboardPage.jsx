@@ -465,7 +465,7 @@ const currentTime = `${hours}:${minutes}`;
           flexDirection="column"
           sx={{
             "& .MuiDataGrid-root": {
-              border: "solid , 0.1rem",
+              border: "solid , 0.1rem, grey",
               //borderWidth:"10px",
              // borderRadius: "5rem",
             },
