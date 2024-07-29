@@ -27,8 +27,8 @@ const VisitsDailyLineChart = ({ isDashboard = false, view, isDisabled }) => {
     if (!coOverallStats) return []; // Add a check for coOverallStats
 
     const { dailyData } = coOverallStats;
-    const totalVisitsLine = {
-      id: "totalVisits",
+    const totalAssistedLine = {
+      id: "totalAssisted",
       color: theme.palette.secondary.main,
       data: [],
     };
@@ -38,7 +38,7 @@ const VisitsDailyLineChart = ({ isDashboard = false, view, isDisabled }) => {
       data: [],
     };
 
-    Object.values(dailyData).forEach(({ date, totalVisits, totalPending }) => {
+    Object.values(dailyData).forEach(({ date, totalAssisted, totalPending }) => {
       const dateFormatted = new Date(date);
       if (dateFormatted >= startDate && dateFormatted <= endDate) {
         const splitDate = dateFormatted.toLocaleDateString(undefined, {
@@ -46,9 +46,9 @@ const VisitsDailyLineChart = ({ isDashboard = false, view, isDisabled }) => {
           month: "2-digit",
         });
         // Format the splitDate as "dd-mm"
-        totalVisitsLine.data = [
-          ...totalVisitsLine.data,
-          { x: splitDate, y: totalVisits },
+        totalAssistedLine.data = [
+          ...totalAssistedLine.data,
+          { x: splitDate, y: totalAssisted },
         ];
         totalPendingLine.data = [
           ...totalPendingLine.data,
@@ -58,7 +58,7 @@ const VisitsDailyLineChart = ({ isDashboard = false, view, isDisabled }) => {
     });
     
 
-    const formattedData = [totalVisitsLine, totalPendingLine];
+    const formattedData = [totalAssistedLine, totalPendingLine];
     return [formattedData];
   }, [coOverallStats, startDate, endDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
