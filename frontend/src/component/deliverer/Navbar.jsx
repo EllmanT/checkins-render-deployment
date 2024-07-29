@@ -35,11 +35,12 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { server } from "server";
 import logo from "./axis-logo-neat.png"
+import { navigate } from "gatsby";
 
 
 const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
   const dispatch = useDispatch();
-  const navigate= useNavigate();
+  //const navigate= useNavigate();
   const theme = useTheme();
   const [anchorEl, setAchorEl] = useState(null);
   const isOpen = Boolean(anchorEl);
@@ -65,8 +66,10 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }) => {
       .get(`${server}/user/logout`, { withCredentials: true })
       .then((res) => {
         toast.success(res.data.message);
-        // window.location.reload(true);
-        navigate("/login");
+  
+        // Add a cache buster to the URL to prevent caching
+        const cacheBuster = Date.now(); // Generate a unique timestamp
+        navigate(`/login?cb=${cacheBuster}`); // Redirect to login page with cache buster
       })
       .catch((error) => {
         console.log(error.response.data.message);
