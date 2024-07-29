@@ -19,7 +19,6 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "dayjs": "^1.11.9",
-    "gatsby": "^5.13.7",
     "html2pdf.js": "^0.10.1",
     "mui-file-input": "^3.0.2",
     "myassistant": "file:..",
