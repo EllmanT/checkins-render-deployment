@@ -132,6 +132,8 @@ async function accessGoogleSheet() {
 
         await visit.save();
 
+        
+
         const date = new Date(timeIn);
 
         year = date.getFullYear();
