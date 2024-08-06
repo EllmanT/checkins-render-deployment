@@ -256,15 +256,15 @@ async function accessGoogleSheet() {
           //writing the email to notify the client
 
 
-          // try {
-          //   await sendMail({
-          //     email: email,
-          //     subject: "Thank you for visiting Axis Solutions!",
-          //     message: contractor.taxPayerName,
-          //   });
-          // } catch (error) {
-          //   return next(new ErrorHandler(error.message, 500));
-          // }
+          try {
+            await sendMail({
+              email: email,
+              subject: "Thank you for visiting Axis Solutions!",
+              message: contractor.taxPayerName,
+            });
+          } catch (error) {
+            return next(new ErrorHandler(error.message, 500));
+          }
         }
         res.status(201).json({
           success: true,
