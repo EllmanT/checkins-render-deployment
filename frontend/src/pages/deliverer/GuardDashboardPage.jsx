@@ -547,9 +547,9 @@ const GuardDashboardPage = () => {
       setDisable(false);
     }
 
-    // return () => {
-    //   socket.disconnect();
-    // };
+    return () => {
+      socket.disconnect();
+    };
   };
 
   ///end of the first code
