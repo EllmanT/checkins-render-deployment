@@ -29,7 +29,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllDeliverersPage } from "redux/actions/deliverer";
-import { getLatestVisitsDeliverer, getLatestVisitsPage } from "redux/actions/visit";
+import {
+  getLatestVisitsDeliverer,
+  getLatestVisitsPage,
+} from "redux/actions/visit";
 import { getAllOverallStatsDeliverer } from "redux/actions/overallStats";
 import { loadUser } from "redux/actions/user";
 import OverviewVisitsChart from "./chart/OverviewVisitsChart";
@@ -77,9 +80,8 @@ const DashboardPage = () => {
     dispatch(getAllDeliverersPage());
   }, [dispatch]);
 
-
   useEffect(() => {
-     const socket = io(endpoint);
+    const socket = io(endpoint);
     //const socket = io("https://www.myassistant.co.zw");
     socket.connect();
     socket.on("update-complete", (message) => {
@@ -90,11 +92,11 @@ const DashboardPage = () => {
       socket.disconnect();
     };
   }, []);
-    
+
   console.log(deliverer);
-        console.log(user)
-    console.log("latest visits" ,latestVisitsDeliverer)
-    
+  console.log(user);
+  console.log("latest visits", latestVisitsDeliverer);
+
   let highestRevenue = 0;
   let topContractorRevenue = "";
   let topContractorVisits = "";
@@ -138,7 +140,7 @@ const DashboardPage = () => {
   let secondLatestMonth = "";
   let isPercentage = false;
   let latestMonthVisits = 0;
-  let textColor="";
+  let textColor = "";
 
   if (coOverallStats && coOverallStats.monthlyData) {
     let numberofMonths = 0;
@@ -188,27 +190,26 @@ const DashboardPage = () => {
       thirdLatestMonthVisits = thirdLatestMonthData.totalVisits;
 
       const change = secondLatestMonthVisits - thirdLatestMonthVisits;
-      percentage = (change / thirdLatestMonthVisits) * 100;
+      percentage = ((change / thirdLatestMonthVisits) * 100).toFixed(0);
 
-    //  console.log(change);
+      //  console.log(change);
 
       if (percentage > 0) {
         percentage = "+" + percentage;
       } else {
         percentage = "-" + percentage;
       }
-      textColor = percentage > 0 ? 'green' : 'red';
-
+      textColor = percentage > 0 ? "green" : "red";
     }
   }
-    //converting date
-    const shortMonth = (month) => {
-      var shortMonth = new Date(Date.parse(month + " 1, 2000")).toLocaleString(
-        "default",
-        { month: "short" }
-      );
-      return shortMonth;
-    };
+  //converting date
+  const shortMonth = (month) => {
+    var shortMonth = new Date(Date.parse(month + " 1, 2000")).toLocaleString(
+      "default",
+      { month: "short" }
+    );
+    return shortMonth;
+  };
   //getting the total number of contractors
 
   const columns = [
@@ -228,12 +229,12 @@ const DashboardPage = () => {
         const month = String(date.getMonth() + 1).padStart(2, "0");
         const day = String(date.getDate()).padStart(2, "0");
         const hours = String(date.getHours()).padStart(2, "0");
-const minutes = String(date.getMinutes()).padStart(2, "0");
-const currentTime = `${hours}:${minutes}`;
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        const currentTime = `${hours}:${minutes}`;
         return `${month}-${day} ${currentTime}`;
       },
     },
-  
+
     {
       field: "status",
       headerName: "Status",
@@ -241,29 +242,36 @@ const currentTime = `${hours}:${minutes}`;
       renderCell: (params) =>
         params.value ? (
           params.value === "pending" ? (
-            <Button    variant="contained" color="warning"  style={{ fontSize: "10px", padding: "4px 8px" }}>
-              <Autorenew/>
+            <Button
+              variant="contained"
+              color="warning"
+              style={{ fontSize: "10px", padding: "4px 8px" }}
+            >
+              <Autorenew />
               {params.value}
             </Button>
           ) : (
-            <Button  variant="contained" color="success"  style={{ fontSize: "10px", padding: "4px 8px" }}>
-              <Done/>
+            <Button
+              variant="contained"
+              color="success"
+              style={{ fontSize: "10px", padding: "4px 8px" }}
+            >
+              <Done />
               {params.value}
             </Button>
           )
         ) : null,
     },
- 
   ];
   const addOrder = () => {
-   // navigate("/add-visit");
+    // navigate("/add-visit");
   };
 
-  const handleComingSoon=()=>{
-    toast('Coming soon....', {
-      icon: '👏',
+  const handleComingSoon = () => {
+    toast("Coming soon....", {
+      icon: "👏",
     });
-  }
+  };
 
   const handleAnalytics = (delivererId) => {
     console.log(delivererId);
@@ -277,12 +285,11 @@ const currentTime = `${hours}:${minutes}`;
   const handleViewMLC = () => {};
   const handleDownloadSLC = () => {};
 
-
   return (
     <Box m="1.5rem 2.5rem">
       <FlexBetween>
         <Box display="flex">
-        <Button
+          <Button
             variant="outlined"
             color="warning"
             sx={{
@@ -343,15 +350,14 @@ const currentTime = `${hours}:${minutes}`;
                 //     backgroundColor: theme.palette.secondary[100],
               },
             }}
-            onClick={()=>{
+            onClick={() => {
               navigate("/del-visits");
-            }}          >
+            }}
+          >
             Walkins
           </Button>
         </Box>
-        <Box>
-       
-        </Box>
+        <Box></Box>
       </FlexBetween>
 
       <Box
@@ -368,10 +374,14 @@ const currentTime = `${hours}:${minutes}`;
         <StatBox
           title="Total Visits"
           value={coOverallStats && coOverallStats.yearlyVisits}
-          increase={!isPercentage ? shortMonth(latestMonth) : shortMonth(secondLatestMonth)}
+          increase={
+            !isPercentage
+              ? shortMonth(latestMonth)
+              : shortMonth(secondLatestMonth)
+          }
           description={
             <span style={{ color: textColor }}>
-           { !isPercentage ? `${latestMonthVisits} ` : `${percentage}%`}
+              {!isPercentage ? `${latestMonthVisits} ` : `${percentage}%`}
             </span>
           }
           icon={
@@ -380,7 +390,7 @@ const currentTime = `${hours}:${minutes}`;
             />
           }
         />
-      
+
         <Box
           id="print-content-slc"
           position={"relative"}
@@ -393,9 +403,8 @@ const currentTime = `${hours}:${minutes}`;
           p="1rem"
           borderRadius="0.55rem"
           boxShadow="3px 5px 8px #ccc"
-
         >
-          <Box display={"flex"} >
+          <Box display={"flex"}>
             <Typography variant="h5" fontWeight={"bold"}>
               Monthly Analysis
             </Typography>
@@ -414,9 +423,8 @@ const currentTime = `${hours}:${minutes}`;
             </IconButton>
           </Box>
           <OverviewVisitsChart view={"visit"} isDashboard={true} />
-
         </Box>
-        
+
         <StatBox
           title="Clients"
           value={coOverallStats && coOverallStats.totalContractors}
@@ -453,7 +461,6 @@ const currentTime = `${hours}:${minutes}`;
             Breakdown of all time visits for the year
           </Typography>
           <VisitsBarChart view="visits" isDashboard={true} />
-
         </Box>
 
         <Box
@@ -469,7 +476,7 @@ const currentTime = `${hours}:${minutes}`;
             "& .MuiDataGrid-root": {
               border: "solid , 0.1rem, grey",
               //borderWidth:"10px",
-             // borderRadius: "5rem",
+              // borderRadius: "5rem",
             },
             "& .MuiDataGrid-cell": {
               borderBottom: "none",
