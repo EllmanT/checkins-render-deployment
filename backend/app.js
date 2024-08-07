@@ -16,11 +16,9 @@ app.use(cookieParser());
 app.use("/", express.static("uploads"));
 app.use(
   cors({
-    // origin: "http://localhost:3000", //url testing
-     origin: "https://checkins-render-prod-deployment.onrender.com", // Replace with the origin of your frontend application
+    origin: "http://localhost:3000", //url testing
+    //  origin: "https://checkins-render-prod-deployment.onrender.com", // Replace with the origin of your frontend application
     //origin:"https://www.myassistant.co.zw", // Replace with the origin of your frontend application
-
-    // origin: "checkins-vercel-deployment-frontend.vercel.app", //url for production
     credentials: true,
   })
 );
@@ -70,7 +68,7 @@ io.on("connection", (socket) => {
 
 //dealing with the automatic listenning of events end
 
-if (process.env.NODE_URL !== "PRODUCTION") {
+if (process.env.NODE_ENV !== "production") {
   require("dotenv").config({
     path: "backend/config/.env",
   });

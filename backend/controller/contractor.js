@@ -10,7 +10,6 @@ const { default: mongoose } = require("mongoose");
 const { google } = require("googleapis");
 const db = mongoose.connection; // Obtain the db object from Mongoose
 const Visit = require("../model/visit");
-const { credentialsObject } = require("./credentialsObject");
 require("dotenv").config();
 
 const spreadsheetId = process.env.CLIENTS_SPREADSHEET_ID;
@@ -19,8 +18,8 @@ const spreadsheetId = process.env.CLIENTS_SPREADSHEET_ID;
 
   async function accessGoogleSheet() {
     const auth = new google.auth.GoogleAuth({
-    // keyFile: "backend/controller/credentialsObject.js", // Path to your service account key file.
-    keyFile: process.env.GOOGLE_APP_CREDENTIALS_PATH,//stored in render
+      keyFile: "controller/credentials.json", // Path to your service account key file
+      // keyFile: process.env.GOOGLE_APP_CREDENTIALS_PATH,//stored in render
     scopes: ["https://www.googleapis.com/auth/spreadsheets"], // Scope for Google Sheets API.
     });
 

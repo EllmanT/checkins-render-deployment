@@ -36,6 +36,8 @@ import OverviewVisitsChart from "./chart/OverviewVisitsChart";
 import VisitsBarChart from "component/deliverer/displayCharts/VisitsBarChart";
 import toast from "react-hot-toast";
 import socketIO, { io } from "socket.io-client";
+import { server } from "server";
+import { endpoint } from "socketIOEndpoint";
 
 //import DailyVisitsChart from "./charts/OverviewVisitsChart";
 //import OverviewVisitsChart from "./charts/OverviewVisitsChart";
@@ -77,7 +79,7 @@ const DashboardPage = () => {
 
 
   useEffect(() => {
-     const socket = io("https://checkins-render-prod-deployment.onrender.com");
+     const socket = io(endpoint);
     //const socket = io("https://www.myassistant.co.zw");
     socket.connect();
     socket.on("update-complete", (message) => {

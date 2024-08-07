@@ -46,9 +46,6 @@ import { endpoint } from "socketIOEndpoint";
 
 const VisitsPage = () => {
   const { user, loading } = useSelector((state) => state.user);
-  //const socket = io("https://checkins-render-prod-deployment.onrender.com"); // Replace with your Socket.IO server URL
-  //const ENDPOINT = "http://localhost:3005";
-  //const socketId = socketIO(endpoint, { transports: ["websocket"] });
 
 
   const theme = useTheme();
@@ -93,7 +90,8 @@ const VisitsPage = () => {
 
   useEffect(() => {
     //
-     const socket = io("https://checkins-render-prod-deployment.onrender.com");
+    //  const socket = io("https://checkins-render-prod-deployment.onrender.com");
+     const socket = io(endpoint);
     //const socket = io("https://www.myassistant.co.zw");
     socket.connect();
     socket.on("update-complete", (message) => {

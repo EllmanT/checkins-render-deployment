@@ -8,12 +8,13 @@ process.on("uncaughtException", (err) => {
 });
 
 //config
-if (process.env.NODE_URL !== "PRODUCTION") {
+if (process.env.NODE_ENV !== "production") {
   require("dotenv").config({
-    path: "backend/config/.env",
+    path: "config/.env",
   });
 }
 
+// console.log(process.env)
 //start mongodb
 connectDatabase();
 
@@ -21,8 +22,6 @@ connectDatabase();
 const server = app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}`);
 });
-
-console.log(`${process.env.PORT}`)
 
 //unhandled rejection
 process.on("unhandledRejection", (err) => {

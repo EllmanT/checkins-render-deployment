@@ -1,12 +1,20 @@
 const mongoose = require("mongoose");
 
+if (process.env.NODE_ENV !== "production") {
+  const dotenv = require('dotenv');
+  const result = dotenv.config({ path: 'config/.env' });
+  
+  if (result.error) {
+      throw result.error;
+  }
+
+}
 const db_url =
   process.env.NODE_ENV === "production"
     ? process.env.DB_URL
     : process.env.OFFLINE_DB_URL2;
-const onlinedb_url = process.env.DB_URL;
 
- console.log(db_url)
+ console.log(`The database url is: ${db_url}`)
 
 const connectDatabase = () => {
   mongoose
