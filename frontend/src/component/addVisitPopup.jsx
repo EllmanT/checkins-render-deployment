@@ -419,6 +419,10 @@ const AddVisitPopup = ({
       toast.error("Company Name or time is missing");
       setDisable(false);
     }
+
+    return () => {
+      socket.disconnect();
+    };
   };
 
   /// rendering 100000 intems mui

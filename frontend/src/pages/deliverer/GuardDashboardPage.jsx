@@ -178,7 +178,7 @@ const GuardDashboardPage = () => {
       thirdLatestMonthVisits = thirdLatestMonthData.totalVisits;
 
       const change = secondLatestMonthVisits - thirdLatestMonthVisits;
-      percentage = (change / thirdLatestMonthVisits) * 100;
+      percentage = ((change / thirdLatestMonthVisits) * 100).toFixed(0);
 
       //  console.log(change);
 

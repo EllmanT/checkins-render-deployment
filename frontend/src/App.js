@@ -21,6 +21,7 @@ import {
   DelDeliverersPage,
   ActivationPage,
   DelDailyVisitsPage,
+  DelDashReportsPage,
 } from "./route/delRoutes";
 
 import ToasterProvider from "providers/ToastProvider";
@@ -151,6 +152,15 @@ const App = () => {
               />
 
               {/**Analytics routes */}
+
+              <Route
+                path="/del-reports"
+                element={
+                  <DelProtectedRoutes>
+                    <DelDashReportsPage />
+                  </DelProtectedRoutes>
+                }
+              />
             </Route>
 
             <Route path="/login" element={<DelLoginPage />} />

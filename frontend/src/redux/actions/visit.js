@@ -196,3 +196,26 @@ export const deleteVisit = (visitId) => async (dispatch) => {
     });
   }
 };
+
+
+export const getAllVisitsReportDeliverer = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getAllVisitsReportDelivererRequest",
+    });
+
+    const { data } = await axios.get(
+      `${server}/visit/get-all-visitsReport-deliverer`,
+      { withCredentials: true }
+    );
+    dispatch({
+      type: "getAllVisitsReportDelivererSuccess",
+      payload: data.delivererWithVisitsReport,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getAllVisitsReportDelivererFailed",
+      payload: error.response.data.message,
+    });
+  }
+};

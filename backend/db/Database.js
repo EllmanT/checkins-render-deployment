@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== "production") {
 
 }
 const db_url =
-  process.env.NODE_ENV === "production"
+  process.env.NODE_ENV !== "production"
     ? process.env.DB_URL
     : process.env.OFFLINE_DB_URL2;
 

@@ -16,8 +16,8 @@ app.use(cookieParser());
 app.use("/", express.static("uploads"));
 app.use(
   cors({
-    origin: "http://localhost:3000", //url testing
-    //  origin: "https://checkins-render-prod-deployment.onrender.com", // Replace with the origin of your frontend application
+    // origin: "http://localhost:3000", //url testing
+     origin: "https://checkins-render-prod-deployment.onrender.com", // Replace with the origin of your frontend application
     //origin:"https://www.myassistant.co.zw", // Replace with the origin of your frontend application
     credentials: true,
   })

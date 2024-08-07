@@ -65,6 +65,7 @@ const Sidebar = ({
       icon: <BarChartOutlined />,
       name: "daily-visits",
     },
+    { text: "Reports", icon: <TrendingUpOutlined />, name: "reports" },
     {
       text: "Axis Central",
       icon: null,
@@ -117,10 +118,7 @@ const Sidebar = ({
     //   name: "payments",
     //  },
     //  {
-    //    text: "Reports",
-    //    icon: <TrendingUpOutlined />,
-    //    name: "performance",
-    //  },
+
     {
       text: "Management",
       icon: null,
@@ -148,16 +146,13 @@ const Sidebar = ({
   const [active, setActive] = useState();
   const theme = useTheme();
   const navigate = useNavigate();
-  const toDashboard=()=>{
-
-    if(user && user.role !=="Guard Admin"){
-      navigate("/del-dashboard")
-
-    }else {
-      navigate("/del-guard-dashboard")
-
+  const toDashboard = () => {
+    if (user && user.role !== "Guard Admin") {
+      navigate("/del-dashboard");
+    } else {
+      navigate("/del-guard-dashboard");
     }
-  }
+  };
 
   useEffect(() => {
     setActive(pathname.substring(1));
@@ -185,10 +180,14 @@ const Sidebar = ({
           <Box width={"100%"}>
             <Box m="1rem 2rem 2rem 3rem">
               <FlexBetween color={theme.palette.secondary.main}>
-              <Typography variant="h4" fontWeight={"bold"} onClick={toDashboard}   style={{ cursor: 'pointer' }}>
-                    myAssistant
-                  </Typography>
-
+                <Typography
+                  variant="h4"
+                  fontWeight={"bold"}
+                  onClick={toDashboard}
+                  style={{ cursor: "pointer" }}
+                >
+                  myAssistant
+                </Typography>
 
                 {!isNonMobile && (
                   <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>

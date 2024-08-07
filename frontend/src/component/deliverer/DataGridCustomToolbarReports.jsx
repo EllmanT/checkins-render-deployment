@@ -17,21 +17,17 @@ import FlexBetween from "./FlexBetween";
 import ReactDatePicker from "react-datepicker";
 
 const DataGridCustomToolbarReports = ({
-  searchInput,
-  setSearchInput,
+
   setJobSearch,
   results,
   startDate,
   setStartDate,
   endDate,
   setEndDate,
-  totalJobsDistance,
-  totalJobsCost,
-  totalJobsCount,
-  delivererName,
-  contractorName,
-  vehicleRegNumber,
-  driverName,
+  totalVisitsAssisted,
+  totalVisitsPending,
+  totalVisitsCount,
+
 }) => {
   const [view, setView] = useState("");
 
@@ -48,26 +44,23 @@ const DataGridCustomToolbarReports = ({
     <GridToolbarContainer>
       <FlexBetween width="100%">
         <FlexBetween>
-          <Button variant="outlined" color="info" sx={{ mr: "1rem" }}>
+        <Button variant="contained" color="info" sx={{  mr: "1rem", fontWeight:"bold" , fontSize:"14px" }}>
             {view !== "" ? (
               <>
                 <b>{view} </b> <span>&nbsp;</span> : <span>&nbsp;</span>{" "}
-                <b>{results}</b>
+                {results}
               </>
             ) : (
               <>
-                <span>&nbsp;</span> <span>&nbsp;</span>
-                {delivererName !== null && delivererName}
-                {contractorName !== null && contractorName}
-                {vehicleRegNumber !== null && vehicleRegNumber}
-                {driverName !== null && driverName}
+                Total Visits <span>&nbsp;</span> : <span>&nbsp;</span> {totalVisitsCount}
               </>
             )}
           </Button>
         </FlexBetween>
 
         <FlexBetween>
-          <Button variant="outlined" color="info" sx={{ mr: "1rem" }}>
+         
+          <Button variant="outlined" color="success" sx={{ mr: "1rem", fontWeight:"bold" ,fontSize:"14px" }}>
             {view !== "" ? (
               <>
                 <b>{view} </b> <span>&nbsp;</span> : <span>&nbsp;</span>{" "}
@@ -75,11 +68,13 @@ const DataGridCustomToolbarReports = ({
               </>
             ) : (
               <>
-                Jobs <span>&nbsp;</span> : <span>&nbsp;</span> {totalJobsCount}
+                Assisted : <span>&nbsp;</span>
+                <b>{totalVisitsAssisted}</b>
               </>
+              
             )}
           </Button>
-          <Button variant="outlined" color="info" sx={{ mr: "1rem" }}>
+          <Button variant="outlined" color="warning" sx={{ mr: "0rem", fontWeight:"bold" ,fontSize:"14px"}}>
             {view !== "" ? (
               <>
                 <b>{view} </b> <span>&nbsp;</span> : <span>&nbsp;</span>{" "}
@@ -87,23 +82,13 @@ const DataGridCustomToolbarReports = ({
               </>
             ) : (
               <>
-                Dist : <span>&nbsp;</span>
-                <b>{totalJobsDistance}</b>km
+                Pending : <span>&nbsp;</span>
+                <b>{totalVisitsPending}</b>
               </>
+              
             )}
           </Button>
-          <Button variant="outlined" color="info">
-            {view !== "" ? (
-              <>
-                <b>{view} </b> <span>&nbsp;</span> : <span>&nbsp;</span>{" "}
-                {results}
-              </>
-            ) : (
-              <>
-                Cost : <span>&nbsp;</span> $<b>{totalJobsCost.toFixed(2)}</b>
-              </>
-            )}
-          </Button>
+         
         </FlexBetween>
       </FlexBetween>
       <FlexBetween width="100%">

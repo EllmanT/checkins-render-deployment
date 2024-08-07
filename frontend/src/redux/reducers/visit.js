@@ -94,6 +94,24 @@ export const visitReducer = createReducer(initialState, {
     state.error = action.payload;
   },
 
+   //load all job reports of a deliverer
+
+   getAllVisitsReportDelivererRequest: (state) => {
+    state.isAllVisitsReportDelivererLoading = true;
+  },
+  //load all overallStats of a Deliverer success
+  getAllVisitsReportDelivererSuccess: (state, action) => {
+    state.isAllVisitsReportDelivererLoading = false;
+    state.AllVisitsReportDeliverer = action.payload;
+  },
+
+  //load all overallStats of a Deliverer failed
+  getAlVisitsReportDelivererFailed: (state, action) => {
+    state.isAllVisitsReportDelivererLoading = false;
+    state.error = action.payload;
+  },
+
+
   clearErrors: (state) => {
     state.error = null;
   },

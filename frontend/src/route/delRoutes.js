@@ -8,6 +8,7 @@ import DelDeliverersPage from "../pages/deliverer/DeliverersPage";
 import ActivationPage from "../pages/ActivationPage";
 import DelVisitsPage from "../pages/deliverer/VisitsPage.jsx"
 import DelDailyVisitsPage from "../pages/deliverer/DailyVisitsPage.jsx"
+import DelDashReportsPage from "../pages/deliverer/reports/DashReports.jsx";
 
 
 
@@ -28,6 +29,8 @@ export {
   DelDeliverersPage,
   ActivationPage,
   DelDailyVisitsPage,
+  DelDashReportsPage,
+ // DelDashReportsPage,
  // DelDashJobsAnalyticsPage,
  // DelDashDailyDataPage,
 };

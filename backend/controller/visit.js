@@ -799,7 +799,7 @@ router.delete(
   })
 );
 
-//get all the Visits for the Visits Page
+//get all the  latest visits for the Visits Page
 router.get(
   "/get-latest-visits-deliverer",
   isAuthenticated,
@@ -904,5 +904,120 @@ router.get(
     }
   })
 );
+
+//get all the Visits for the Visits Report Page
+router.get(
+  "/get-all-visitsReport-deliverer",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      let {
+        page = 0,
+        pageSize = 25,
+        visitSearch="",
+        sort = null,
+        sortField = "_id",
+        sortOrder = "desc",
+        search = "",
+      } = req.query;
+
+      // Formatted sort should look like { field: 1 } or { field: -1 }
+      const generateSort = () => {
+        const sortParsed = JSON.parse(sort);
+        const sortOptions = {
+          [sortParsed.field]: sortParsed.sort === "asc" ? 1 : -1,
+        };
+
+        return sortOptions;
+      };
+
+      const sortOptions = Boolean(sort) ? generateSort() : { timeIn: -1 };
+
+      // Find the deliverer based on the company ID
+      const deliverer = await Deliverer.findById(req.user.companyId);
+      if (!deliverer) {
+        return res.status(404).json({
+          success: false,
+          message: "Deliverer not found",
+        });
+      }
+
+      console.log(deliverer, "deliverer");
+      // Get the visit IDs associated with the deliverer
+      const visitIds = deliverer.visit_ids;
+
+      //creating the aggreagate call
+
+      // Update the pipeline with the revised $match stage
+      const pipeline = [
+        { $match: { _id: { $in: visitIds } } },
+
+        {
+          $lookup: {
+            from: "contractors",
+            let: { contractorId: "$contractorId" },
+            pipeline: [
+              { $match: { $expr: { $eq: ["$_id", "$$contractorId"] } } },
+              { $project: { tradeName: 1, tin: 1, contactPersons: 1 } },
+            ],
+            as: "contractorId",
+          },
+        },
+        { $unwind: "$contractorId" },
+        {
+          $match: {
+            $or: [
+              {
+                "contractorId.tradeName": {
+                  $regex: `.*${search}.*`,
+                  $options: "i",
+                },
+              },
+              { timeIn: { $regex: `.*${visitSearch}.*`, $options: "i" } },
+              { ticketNumber: { $regex: `.*${visitSearch}.*`, $options: "i" } },
+              { status: { $regex: `.*${visitSearch}.*`, $options: "i" } },
+
+              // Add more conditions as needed
+            ],
+          },
+        },
+        // { $sort: { timeIn: -1 } }, // Sort by orderDate in descending order
+
+        { $skip: page * parseInt(pageSize, 10) },
+
+        { $limit: parseInt(pageSize, 10) },
+        { $sort: sortOptions },
+      ];
+
+      // Execute the aggregation pipeline
+      const delivererWithVisitsReport = await Visit.aggregate(pipeline);
+      //console.log("pageVisits",pageVisits)
+
+      if (delivererWithVisitsReport.length === 0) {
+        return res.status(200).json({
+          success: true,
+          message: "No visits in the system",
+        });
+      }
+
+      // console.log("page Visits", pageVisits);
+      // Get the total count of jobs
+      const totalCount = await Visit.countDocuments({
+        _id: { $in: visitIds },
+      });
+
+      res.status(200).json({
+        success: true,
+        delivererWithVisitsReport,
+        totalCount,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
+
+
 
 module.exports = router;
