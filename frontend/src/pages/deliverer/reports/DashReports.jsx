@@ -372,7 +372,7 @@ const AllVisitsPage = () => {
         </Box>
 
         <Box>
-         
+            
         </Box>
       </FlexBetween>
       {/**This is where the add customer dialogue starts */}
