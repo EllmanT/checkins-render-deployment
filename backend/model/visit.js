@@ -39,6 +39,11 @@ const visitSchema = new mongoose.Schema(
       ref: "Contractor",
       required: true,
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      // required: true,
+    },
     contactPersonId:{
       type:String,
     },
