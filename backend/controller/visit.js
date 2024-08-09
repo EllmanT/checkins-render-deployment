@@ -61,6 +61,7 @@ async function accessGoogleSheet() {
         values1.reasonForVisit,
         values1.ticketNumber,
         values1.status,
+        values1.username,
       ],
     ];
     const resource = {
@@ -102,6 +103,8 @@ async function accessGoogleSheet() {
           companyId,
         } = req.body;
 
+        // const user = await User.findById(req.user.id);
+
         console.log(visitId);
         console.log(req.body);
 
@@ -127,10 +130,9 @@ async function accessGoogleSheet() {
         visit.ticketNumber = ticketNumber;
         visit.status = status;
         visit.contactPersonId = contactPersonId;
+        visit.user = req.user._id;
 
         await visit.save();
-
-        
 
         const date = new Date(timeIn);
 
@@ -249,10 +251,15 @@ async function accessGoogleSheet() {
           await OverallStats.bulkWrite(bulkOverallStats);
           //   const timeOutFormatted = dayjs(req.body.timeOut).format("YYYY-MM-DD HH:mm:ss");
 
-          writeSheetData(req.body);
+          // creating a new visit that has all the necessary data
+
+          const visitObject = {
+            username: req.user.name, // Add your ID here
+            ...req.body // Spread the req.body values into the visitObject
+        };
+          writeSheetData(visitObject);
 
           //writing the email to notify the client
-
 
           try {
             await sendMail({
@@ -914,7 +921,7 @@ router.get(
       let {
         page = 0,
         pageSize = 25,
-        visitSearch="",
+        visitSearch = "",
         sort = null,
         sortField = "_id",
         sortOrder = "desc",
@@ -1016,8 +1023,5 @@ router.get(
     }
   })
 );
-
-
-
 
 module.exports = router;
