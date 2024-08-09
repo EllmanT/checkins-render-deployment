@@ -100,7 +100,7 @@ const AllVisitsPage = () => {
   const [jobNumber, setJobNumber] = useState("");
 
   const currentDate = new Date();
-  const starttDate = new Date(currentDate.getTime() - 1 * 24 * 60 * 60 * 1000);
+  const starttDate = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
   const [startDate, setStartDate] = useState(starttDate);
   const [endDate, setEndDate] = useState(currentDate);
 
