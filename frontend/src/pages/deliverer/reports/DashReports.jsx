@@ -100,8 +100,7 @@ const AllVisitsPage = () => {
   const [jobNumber, setJobNumber] = useState("");
 
   const currentDate = new Date();
-  // Setting the default date to be a week
-  const starttDate = new Date(currentDate.getTime() - 7* 24 * 60 * 60 * 1000);
+  const starttDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
   const [startDate, setStartDate] = useState(starttDate);
   const [endDate, setEndDate] = useState(currentDate);
 
