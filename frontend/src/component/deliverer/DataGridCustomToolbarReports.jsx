@@ -115,7 +115,6 @@ const DataGridCustomToolbarReports = ({
               selectsStart
               startDate={startDate}
               endDate={endDate}
-              disabled={isDisabled}
             />
 
             <ReactDatePicker
@@ -125,7 +124,6 @@ const DataGridCustomToolbarReports = ({
               startDate={startDate}
               endDate={endDate}
               minDate={startDate}
-              disabled={isDisabled}
             />
           </Box>
         </FlexBetween>

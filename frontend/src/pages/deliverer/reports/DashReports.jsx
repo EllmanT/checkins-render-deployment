@@ -100,9 +100,12 @@ const AllVisitsPage = () => {
   const [jobNumber, setJobNumber] = useState("");
 
   const currentDate = new Date();
-  const starttDate = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+  // Setting the default date to be a week
+  const starttDate = new Date(currentDate.getTime() - 7* 24 * 60 * 60 * 1000);
   const [startDate, setStartDate] = useState(starttDate);
   const [endDate, setEndDate] = useState(currentDate);
+
+  console.log("this is the start date : "  ,startDate)
 
   console.log(page);
   console.log(sort);
@@ -275,79 +278,61 @@ const AllVisitsPage = () => {
   //
 
 
-  let allReports;
-  let formattedJobData = [""];
-  let totalVisitsCount = 0;
-  let totalVisitsAssisted = 0;
-  let totalVisitsPending = 0;
+  const [totalVisitsAssisted, setTotalVisitsAssisted] = useState(0);
+  const [totalVisitsPending, setTotalVisitsPending] = useState(0);
+  const [formattedJobData, setFormattedJobData] = useState([]);
+  const [allReports, setAllReports] = useState([]);
+  const [totalVisitsCount, setTotalVisitsCount] = useState(0);
 
   const [formattedData] = useMemo(() => {
-    if (!AllVisitsReportDeliverer) return []; // Add a check for coOverallStats
+    if (!AllVisitsReportDeliverer) return [[], [], 0, 0, 0];
 
     let totalVisits = [];
+    let assistedCount = 0;
+    let pendingCount = 0;
 
     Object.values(AllVisitsReportDeliverer).forEach(
-      ({
-        timeIn,
-        timeOut,
-        _id,
-        ticketNumber,
-        regNumber,
-        email,
-        phoneNumber,
-        status,
-        contractorId,
-     
-      }) => {
+      ({ timeIn, timeOut, _id, ticketNumber, regNumber, email, phoneNumber, status, contractorId }) => {
         const dateFormatted = new Date(timeIn);
         if (dateFormatted >= startDate && dateFormatted <= endDate) {
-          const splitDate = dateFormatted.toLocaleDateString(undefined, {
-            day: "2-digit",
-            month: "2-digit",
+          totalVisits.push({
+            timeIn,
+            timeOut,
+            _id,
+            ticketNumber,
+            regNumber,
+            email,
+            phoneNumber,
+            status,
+            contractorId,
           });
-          // Format the splitDate as "dd-mm"
-          totalVisits = [
-            ...totalVisits,
-            {
-              timeIn,
-              timeOut,
-              _id,
-              ticketNumber,
-              regNumber,
-              email,
-              phoneNumber,
-              status,
-              contractorId,
-            },
-          ];
 
-           if (status==="assisted"){
-            totalVisitsAssisted ++;
-          }
-          if (status==="pending"){
-            totalVisitsPending ++;
+          if (status === 'assisted') {
+            assistedCount++;
+          } else if (status === 'pending') {
+            pendingCount++;
           }
         }
       }
     );
 
-    formattedJobData = [totalVisits];
-    allReports = formattedJobData[0];
-    totalVisitsCount = allReports.length;
-    return [
-      allReports,
-      formattedJobData,
-      totalVisitsCount,
-      totalVisitsAssisted,
-      totalVisitsPending,
-    ];
-  }, [AllVisitsReportDeliverer, startDate, endDate]); // eslint-disable-line react-hooks/exhaustive-deps
+    setFormattedJobData([totalVisits]);
+    setAllReports(totalVisits);
+    setTotalVisitsAssisted(assistedCount);
+    setTotalVisitsPending(pendingCount);
+    setTotalVisitsCount(totalVisits.length);
 
-  console.log(AllVisitsReportDeliverer);
+    return [totalVisits, [totalVisits], totalVisits.length, assistedCount, pendingCount];
+  }, [AllVisitsReportDeliverer, startDate, endDate]);
 
-  allReports = formattedJobData[0];
-  console.log(formattedJobData);
-  console.log(allReports);
+  // Logging
+  useEffect(() => {
+    console.log('AllVisitsReportDeliverer:', AllVisitsReportDeliverer);
+    console.log('formattedJobData:', formattedJobData);
+    console.log('allReports:', allReports);
+  }, [AllVisitsReportDeliverer, formattedJobData, allReports]);
+
+  console.log(formattedData)
 
 
   return (
